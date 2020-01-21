@@ -1,0 +1,3 @@
+[submodule "src/temoto"]
+	path = src/temoto
+	url = https://github.com/temoto-telerobotics/temoto

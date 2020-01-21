@@ -1,0 +1,12 @@
+processed_pointcloud:
+- method:
+
+  - segment_type: "3d_camera"
+    output_topic_types:
+      - 3d_camera_data
+
+  - segment_type: "box_filter"
+    input_topic_types:
+      - 3d_camera_data
+    output_topic_types:
+      - 3d_camera_data

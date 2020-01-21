@@ -1,0 +1,11 @@
+build/
+devel/
+logs/
+lib/
+.vscode/
+.catkin_tools/
+.catkin_workspace
+src/CMakeLists.txt
+*.so
+*.swp
+*.user

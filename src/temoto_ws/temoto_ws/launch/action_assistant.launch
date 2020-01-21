@@ -1,0 +1,8 @@
+<launch>
+  <include file="$(find temoto_action_assistant)/launch/action_assistant.launch">
+    <arg name="ta_path" value="$(find temoto_ws)/../actions/" />
+    <arg name="ft_path" value="$(find temoto_action_assistant)/" />
+    <arg name="du_path" value="$(find temoto_action_assistant)/resources/default_umrf.json" />
+  </include>
+</launch>
+
