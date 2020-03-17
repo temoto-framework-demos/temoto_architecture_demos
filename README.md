@@ -6,6 +6,5 @@ Supplementary TeMoto architecture demo materials for TBD paper
 **PCL**
 ``` bash
 $ sudo apt install libpcl-dev
-$ sudo apt install ros-melodic-pcl-msgs
-$ sudo apt install ros-melodic-tf2-eigen
+$ sudo apt install ros-melodic-pcl-ros
 ```
