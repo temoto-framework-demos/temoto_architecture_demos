@@ -3,13 +3,13 @@ processed_pointcloud:
 
   - segment_type: "3d_camera"
     output_topic_types:
-      - 3d_camera_data
+      - camera_data_3d
 
   - segment_type: "box_filter"
     input_topic_types:
-      - 3d_camera_data
+      - camera_data_3d
     output_topic_types:
-      - 3d_camera_data
+      - camera_data_3d
 
 dummy_pipe:
 - method:

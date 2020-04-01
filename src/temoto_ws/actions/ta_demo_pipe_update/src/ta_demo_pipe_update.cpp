@@ -52,7 +52,7 @@ void executeTemotoAction()
   temoto_core::TopicContainer pipe_topics = cmi_.startPipe("processed_pointcloud");
 
   // Get the name of the topic where camera feed is published
-  std::string ppc_data_topic = pipe_topics.getOutputTopic("3d_camera_data");
+  std::string ppc_data_topic = pipe_topics.getOutputTopic("camera_data_3d");
 
   // Debug information
   TEMOTO_INFO_STREAM("Got processsed_pointcloud on topic '" << ppc_data_topic << "'");

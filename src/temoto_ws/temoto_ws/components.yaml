@@ -1,11 +1,11 @@
 Components:
 - component_name: "Realsense d435i"
   component_type: "3d_camera"
-  package_name: "temoto_test_ws"
+  package_name: "temoto_ws"
   executable:  "rs_camera.launch"
   output_topics:
-    3d_camera_data: "/depth/color/points"
-    3d_camera_info: "/camera/depth/camera_info"
+    camera_data_3d: "/camera/depth/color/points"
+    camera_info_3d: "/camera/depth/camera_info"
   required_parameters:
     filters: "pointcloud"
 
@@ -15,19 +15,19 @@ Components:
   executable:  "pointcloud_filter_a"
   reliability: 0.8
   input_topics:
-    3d_camera_data: "input"
+    camera_data_3d: "input"
   output_topics:
-    3d_camera_data: "output"
+    camera_data_3d: "output"
 
-# - component_name: "Box filter B"
-#   component_type: "box_filter"
-#   package_name: "pointcloud_filters"
-#   executable:  "pointcloud_filter_b"
-#   reliability: 0.9
-#   input_topics:
-#     3d_camera_data: "input"
-#   output_topics:
-#     3d_camera_data: "output"
+- component_name: "Box filter B"
+  component_type: "box_filter"
+  package_name: "pointcloud_filters"
+  executable:  "pointcloud_filter_b"
+  reliability: 0.9
+  input_topics:
+    camera_data_3d: "input"
+  output_topics:
+    camera_data_3d: "output"
 
 - component_name: "String spammer 0"
   component_type: "cs_test_0"
