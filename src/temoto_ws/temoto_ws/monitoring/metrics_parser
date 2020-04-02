@@ -1,0 +1,21 @@
+#!/bin/bash
+
+while sleep 1
+do 
+    z=$(ps aux)
+    while read -r z
+    do
+        var_cpu=$var_cpu$(awk '{print "cpu_usage{process=\""$11"\", pid=\""$2"\"}", $3z}')
+        var_mem=$var_mem$(awk '{print "memory_usage{process=\""$11"\", pid=\""$2"\"}", $6z}')
+    done <<< "$z"
+
+    curl -X POST -H  "Content-Type: text/plain" --data "$var_cpu
+    " http://localhost:9091/metrics/job/top/instance/machine
+
+    curl -X POST -H  "Content-Type: text/plain" --data "$var_mem
+    " http://localhost:9091/metrics/job/top/instance/machine
+
+    unset z
+    unset var_mem
+    unset var_cpu
+done
