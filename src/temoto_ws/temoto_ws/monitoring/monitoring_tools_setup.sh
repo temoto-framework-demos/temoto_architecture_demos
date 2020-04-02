@@ -16,23 +16,23 @@ check_success() {
   fi
 }
 
-# # Pushgateway setup
-# echo -e $RESET $GREEN $NL"Downloading Pushgateway version 0.8.0" $RESET
-# wget https://github.com/prometheus/pushgateway/releases/download/v0.8.0/pushgateway-0.8.0.linux-amd64.tar.gz
-# check_success "Failed to download Pushgateway"
+# Pushgateway setup
+echo -e $RESET $GREEN $NL"Downloading Pushgateway version 0.8.0" $RESET
+wget https://github.com/prometheus/pushgateway/releases/download/v0.8.0/pushgateway-0.8.0.linux-amd64.tar.gz
+check_success "Failed to download Pushgateway"
 
-# echo -e $RESET $GREEN $NL"Unpacking Pushgateway" $RESET
-# tar xvzf pushgateway-0.8.0.linux-amd64.tar.gz
-# check_success "Failed to unpack Pushgateway"
+echo -e $RESET $GREEN $NL"Unpacking Pushgateway" $RESET
+tar xvzf pushgateway-0.8.0.linux-amd64.tar.gz
+check_success "Failed to unpack Pushgateway"
 
-# # Prometheus setup
-# echo -e $RESET $GREEN $NL"Downloading Prometheus version 2.9.2" $RESET
-# wget https://github.com/prometheus/prometheus/releases/download/v2.9.2/prometheus-2.9.2.linux-amd64.tar.gz
-# check_success "Failed to download Prometheus"
+# Prometheus setup
+echo -e $RESET $GREEN $NL"Downloading Prometheus version 2.9.2" $RESET
+wget https://github.com/prometheus/prometheus/releases/download/v2.9.2/prometheus-2.9.2.linux-amd64.tar.gz
+check_success "Failed to download Prometheus"
 
-# echo -e $RESET $GREEN $NL"Unpacking Prometheus" $RESET
-# tar xvzf prometheus-2.9.2.linux-amd64.tar.gz
-# check_success "Failed to unpack Prometheus"
+echo -e $RESET $GREEN $NL"Unpacking Prometheus" $RESET
+tar xvzf prometheus-2.9.2.linux-amd64.tar.gz
+check_success "Failed to unpack Prometheus"
 
 cp prometheus.yml prometheus-2.9.2.linux-amd64/prometheus.yml
 check_success "Failed set up the prometheus.yml file"
