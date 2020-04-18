@@ -4,6 +4,12 @@ project(ta_demo_pipe_update)
 # use c++11 standard
 add_compile_options(-std=c++11)
 
+option(TEMOTO_ENABLE_TRACING "Use tracer" OFF)
+
+if(TEMOTO_ENABLE_TRACING)
+  add_compile_options(-Denable_tracing)
+endif()
+
 set(ACTION_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/lib/)
 
 find_package(catkin REQUIRED COMPONENTS

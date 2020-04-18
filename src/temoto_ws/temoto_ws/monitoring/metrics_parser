@@ -1,13 +1,31 @@
 #!/bin/bash
 
+if [[ -z "${TEMOTO_NAMESPACE}" ]]; then
+  DATA_PREFIX=''
+else
+  DATA_PREFIX=${TEMOTO_NAMESPACE}
+fi
+
 while sleep 1
 do 
     z=$(ps aux)
-    while read -r z
+    while read line
     do
-        var_cpu=$var_cpu$(awk '{print "cpu_usage{process=\""$11"\", pid=\""$2"\"}", $3z}')
-        var_mem=$var_mem$(awk '{print "memory_usage{process=\""$11"\", pid=\""$2"\"}", $6z}')
+        var_cpu=$var_cpu$(awk -v var1=$DATA_PREFIX '{print "cpu_usage{process=\""var1"_"$11"\", pid=\""$2"\"}", $3line}')
+        var_mem=$var_mem$(awk -v var1=$DATA_PREFIX '{print "memory_usage{process=\""var1"_"$11"\", pid=\""$2"\"}", $4line}')
     done <<< "$z"
+
+    pow_val=$(cat /sys/class/power_supply/BAT0/power_now)
+    var_pow="power_consumption{system_id=\"$DATA_PREFIX\"} $pow_val"
+
+    cpu_load_str=$(cat /proc/loadavg | awk '{print $1}')/$(nproc)*100
+    var_cpu_avg="cpu_usage_avg{system_id=\"$DATA_PREFIX\"} $(echo $cpu_load_str | bc -l)"
+
+    curl -X POST -H  "Content-Type: text/plain" --data "$var_cpu_avg
+    " http://localhost:9091/metrics/job/top/instance/machine
+
+    curl -X POST -H  "Content-Type: text/plain" --data "$var_pow
+    " http://localhost:9091/metrics/job/top/instance/machine
 
     curl -X POST -H  "Content-Type: text/plain" --data "$var_cpu
     " http://localhost:9091/metrics/job/top/instance/machine
