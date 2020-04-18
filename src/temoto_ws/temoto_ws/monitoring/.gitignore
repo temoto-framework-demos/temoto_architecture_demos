@@ -1,4 +1,4 @@
 pushgateway*
 prometheus-*
-grafana*
+grafana-*
 data/
