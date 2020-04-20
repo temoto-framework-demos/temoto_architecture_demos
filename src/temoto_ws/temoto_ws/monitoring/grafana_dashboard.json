@@ -237,7 +237,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "cpu_usage{process=~\".*temoto.*\"}/8",
+          "expr": "cpu_usage{process=~\".*temoto.*\"}",
           "interval": "",
           "legendFormat": "{{process}}",
           "refId": "A"
