@@ -16,13 +16,22 @@ check_success() {
   fi
 }
 
+PG_VERSION=1.2.0
+ARCHITECTURE=$(uname -m)
+
+if [ "$ARCHITECTURE" == "aarch64" ]; then
+  ARCHITECTURE="arm64"
+elif [ "$ARCHITECTURE" == "x86_64" ]; then
+  ARCHITECTURE="amd64"
+fi
+
 # Pushgateway setup
-echo -e $RESET $GREEN $NL"Downloading Pushgateway version 0.8.0" $RESET
-wget https://github.com/prometheus/pushgateway/releases/download/v0.8.0/pushgateway-0.8.0.linux-amd64.tar.gz
+echo -e $RESET $GREEN $NL"Downloading Pushgateway version $PG_VERSION" $RESET
+wget https://github.com/prometheus/pushgateway/releases/download/v$PG_VERSION/pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz
 check_success "Failed to download Pushgateway"
 
 echo -e $RESET $GREEN $NL"Unpacking Pushgateway" $RESET
-tar xvzf pushgateway-0.8.0.linux-amd64.tar.gz
+tar xvzf pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz
 check_success "Failed to unpack Pushgateway"
 
 rm *.gz
