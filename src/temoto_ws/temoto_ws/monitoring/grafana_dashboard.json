@@ -59,7 +59,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "power_consumption/1000000",
+          "expr": "power_consumption",
           "instant": false,
           "interval": "",
           "legendFormat": "{{system_id}}",

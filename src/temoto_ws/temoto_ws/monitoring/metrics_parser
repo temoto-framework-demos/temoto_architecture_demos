@@ -14,14 +14,14 @@ do
     do
         var_cpu=$var_cpu$(awk -v var1=$DATA_PREFIX var2=$NR_OF_CPUS'{print "cpu_usage{process=\""var1"_"$11"\", pid=\""$2"\"}", $3/var2 line}')
     done <<< "$z"
-
+  
     z=$(ps aux)
     while read -r line
     do
         var_mem=$var_mem$(awk -v var1=$DATA_PREFIX '{print "memory_usage{process=\""var1"_"$11"\", pid=\""$2"\"}", $6line}')
     done <<< "$z"
 
-    pow_val=$(cat /sys/class/power_supply/BAT0/power_now)
+    pow_val=$(echo "$(cat /sys/class/power_supply/BAT0/power_now)/1000000" | bc -l)
     var_pow="power_consumption{system_id=\"$DATA_PREFIX\"} $pow_val"
 
     cpu_load_str=$(cat /proc/loadavg | awk '{print $1}')/$(nproc)*100
