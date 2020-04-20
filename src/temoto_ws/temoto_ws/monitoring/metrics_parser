@@ -15,8 +15,6 @@ do
         var_cpu=$var_cpu$(awk -v var1=$DATA_PREFIX var2=$NR_OF_CPUS'{print "cpu_usage{process=\""var1"_"$11"\", pid=\""$2"\"}", $3/var2 line}')
     done <<< "$z"
 
-    echo $var_cpu
-
     z=$(ps aux)
     while read -r line
     do
