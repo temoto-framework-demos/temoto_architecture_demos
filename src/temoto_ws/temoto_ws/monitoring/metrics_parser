@@ -1,12 +1,24 @@
 #!/bin/bash
 
+# Get the name of the system
 NR_OF_CPUS=$(nproc)
 if [[ -z "${TEMOTO_NAMESPACE}" ]]; then
-  DATA_PREFIX=''
+  DATA_PREFIX=$(hostname)
 else
   DATA_PREFIX=${TEMOTO_NAMESPACE}
 fi
 
+# Check if the power_supply is monitored by OS
+batt_file_base="/sys/class/power_supply"
+if test -e "$batt_file_base/BAT0"; then
+    BATT_FILE="$batt_file_base/BAT0"
+elif test -e "$batt_file_base/BAT1"; then
+    BATT_FILE="$batt_file_base/BAT1"
+else
+    BATT_FILE=""
+fi
+
+# Start sending metrics every 1 second
 while sleep 1
 do 
     z=$(ps aux)
@@ -21,16 +33,20 @@ do
         var_mem=$var_mem$(awk -v var1=$DATA_PREFIX '{print "memory_usage{process=\""var1"_"$11"\", pid=\""$2"\"}", $6line}')
     done <<< "$z"
 
-    pow_val=$(echo "$(cat /sys/class/power_supply/BAT0/power_now)/1000000" | bc -l)
-    var_pow="power_consumption{system_id=\"$DATA_PREFIX\"} $pow_val"
+    # Send power metrics only if power info is available
+    if test $BATT_FILE; then
+       echo "sending power metrics based on $BATT_FILE"
+       pow_val=$(echo "$(cat $BATT_FILE/power_now)/1000000" | bc -l)
+       var_pow="power_consumption{system_id=\"$DATA_PREFIX\"} $pow_val"
 
+       curl -X POST -H  "Content-Type: text/plain" --data "$var_pow
+       " http://localhost:9091/metrics/job/top/instance/machine
+    fi
+    
     cpu_load_str=$(cat /proc/loadavg | awk '{print $1}')/$(nproc)*100
     var_cpu_avg="cpu_usage_avg{system_id=\"$DATA_PREFIX\"} $(echo $cpu_load_str | bc -l)"
 
     curl -X POST -H  "Content-Type: text/plain" --data "$var_cpu_avg
-    " http://localhost:9091/metrics/job/top/instance/machine
-
-    curl -X POST -H  "Content-Type: text/plain" --data "$var_pow
     " http://localhost:9091/metrics/job/top/instance/machine
 
     curl -X POST -H  "Content-Type: text/plain" --data "$var_cpu
