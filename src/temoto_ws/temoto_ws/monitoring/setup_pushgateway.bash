@@ -25,15 +25,22 @@ elif [ "$ARCHITECTURE" == "x86_64" ]; then
   ARCHITECTURE="amd64"
 fi
 
+PG_PACKAGE_NAME="pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz"
+PG_URL="https://github.com/prometheus/pushgateway/releases/download/v$PG_VERSION/$PG_PACKAGE_NAME"
+
 # Pushgateway setup
-echo -e $RESET $GREEN $NL"Downloading Pushgateway version $PG_VERSION" $RESET
-wget https://github.com/prometheus/pushgateway/releases/download/v$PG_VERSION/pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz
-check_success "Failed to download Pushgateway"
+if [ ! -d $PG_PACKAGE_NAME]; then
+  echo -e $RESET $GREEN $NL"Downloading Pushgateway version $PG_VERSION" $RESET
+  wget $PG_URL
+  check_success "Failed to download Pushgateway"
 
-echo -e $RESET $GREEN $NL"Unpacking Pushgateway" $RESET
-tar xvzf pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz
-check_success "Failed to unpack Pushgateway"
+  echo -e $RESET $GREEN $NL"Unpacking Pushgateway" $RESET
+  tar xvzf pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz
+  check_success "Failed to unpack Pushgateway"
 
-rm *.gz
+  rm *.gz
 
-echo -e $RESET $GREEN $NL "Done." $RESET
+  echo -e $RESET$GREEN"Done." $RESET
+else
+  echo -e $RESET $GREEN $NL"Pushgateway version $PG_VERSION is already set up." $RESET
+fi

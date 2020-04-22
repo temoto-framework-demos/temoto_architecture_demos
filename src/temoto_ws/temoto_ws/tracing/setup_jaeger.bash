@@ -19,15 +19,24 @@ check_success() {
 JG_VERSION="0.5.0"
 COPY_CONFIG=$1
 
-echo -e $RESET $GREEN $BOLD $NL"Downloading jaeger-client-cpp version $JG_VERSION ..." $RESET
-git clone --branch v$JG_VERSION https://github.com/jaegertracing/jaeger-client-cpp
-check_success "Failed to download jaeger-client-cpp version $JG_VERSION"
+if [ ! -d jaeger-client-cpp]; then
+  echo -e $RESET $GREEN $BOLD $NL"Downloading jaeger-client-cpp version $JG_VERSION ..." $RESET
+  git clone --branch v$JG_VERSION https://github.com/jaegertracing/jaeger-client-cpp
+  check_success "Failed to download jaeger-client-cpp version $JG_VERSION"
+fi
 
 echo -e $RESET $GREEN $BOLD $NL"Setting up jaeger-client-cpp version $JG_VERSION ..." $RESET
-cd jaeger-client-cpp
-mkdir build && cd build
-cmake ..
-check_success "Failed to invoke CMake on jaeger-client-cpp version $JG_VERSION"
+current_dir=$(pwd)
+if [ ! -d jaeger-client-cpp/build]; then
+  cd jaeger-client-cpp
+  mkdir build && cd build
+  cmake ..
+  check_success "Failed to invoke CMake on jaeger-client-cpp version $JG_VERSION"
+else
+  cd jaeger-client-cpp/build
+  cmake ..
+  check_success "Failed to invoke CMake on jaeger-client-cpp version $JG_VERSION"
+fi
 
 # Use half of the available threads to build jaeger
 NR_OF_JOBS=$(echo "$(nproc)/2" | bc)
@@ -35,7 +44,9 @@ echo -e $RESET $GREEN $BOLD $NL"Building jaeger-client-cpp version $JG_VERSION w
 make -j$NR_OF_JOBS
 check_success "Failed to invoke Make on jaeger-client-cpp version $JG_VERSION"
 
-if [ $COPY_CONFIG == "--copy-config" ]; then
+cd $current_dir
+
+if [[ $COPY_CONFIG == "--copy-config" ]]; then
   echo -e $RESET $GREEN $BOLD $NL"Setting up the tracer_config.yaml in temoto_core ..." $RESET
   temoto_core_path="$(rospack find temoto_core)"
   check_success "Failed to find the location of temoto_core"

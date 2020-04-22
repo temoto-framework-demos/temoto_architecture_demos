@@ -12,8 +12,10 @@ fi
 batt_file_base="/sys/class/power_supply"
 if test -e "$batt_file_base/BAT0"; then
     BATT_FILE="$batt_file_base/BAT0"
+    echo "sending power metrics based on $BATT_FILE"
 elif test -e "$batt_file_base/BAT1"; then
     BATT_FILE="$batt_file_base/BAT1"
+    echo "sending power metrics based on $BATT_FILE"
 else
     BATT_FILE=""
 fi
@@ -34,8 +36,7 @@ do
     done <<< "$z"
 
     # Send power metrics only if power info is available
-    if test $BATT_FILE; then
-       echo "sending power metrics based on $BATT_FILE"
+    if test $BATT_FILE; then       
        pow_val=$(echo "$(cat $BATT_FILE/power_now)/1000000" | bc -l)
        var_pow="power_consumption{system_id=\"$DATA_PREFIX\"} $pow_val"
 
