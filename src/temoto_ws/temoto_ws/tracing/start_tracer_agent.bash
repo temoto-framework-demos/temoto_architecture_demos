@@ -28,4 +28,4 @@ sudo docker run \
   -p6832:6832/udp \
   -p5778:5778/tcp \
   jaegertracing/$JA_DOCKER_NAME \
-  --collector.host-port=http://$COLLECTOR_IP:14267
+  --collector.host-port=$COLLECTOR_IP:14267
