@@ -1,0 +1,7 @@
+library_path: TODO_PATH
+disabled: false
+reporter:
+  logSpans: true
+sampler:
+  type: const
+  param: 1
