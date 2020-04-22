@@ -19,9 +19,9 @@ check_success() {
 PG_VERSION=1.2.0
 ARCHITECTURE=$(uname -m)
 
-if [ "$ARCHITECTURE" == "aarch64" ]; then
+if [[ "$ARCHITECTURE" == "aarch64" ]]; then
   ARCHITECTURE="arm64"
-elif [ "$ARCHITECTURE" == "x86_64" ]; then
+elif [[ "$ARCHITECTURE" == "x86_64" ]]; then
   ARCHITECTURE="amd64"
 fi
 
@@ -29,7 +29,7 @@ PG_PACKAGE_NAME="pushgateway-$PG_VERSION.linux-$ARCHITECTURE.tar.gz"
 PG_URL="https://github.com/prometheus/pushgateway/releases/download/v$PG_VERSION/$PG_PACKAGE_NAME"
 
 # Pushgateway setup
-if [ ! -d $PG_PACKAGE_NAME]; then
+if [[ ! -d $PG_PACKAGE_NAME ]]; then
   echo -e $RESET $GREEN $NL"Downloading Pushgateway version $PG_VERSION" $RESET
   wget $PG_URL
   check_success "Failed to download Pushgateway"

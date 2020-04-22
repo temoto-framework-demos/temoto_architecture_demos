@@ -19,7 +19,7 @@ check_success() {
 JG_VERSION="0.5.0"
 COPY_CONFIG=$1
 
-if [ ! -d jaeger-client-cpp]; then
+if [[ ! -d jaeger-client-cpp ]]; then
   echo -e $RESET $GREEN $BOLD $NL"Downloading jaeger-client-cpp version $JG_VERSION ..." $RESET
   git clone --branch v$JG_VERSION https://github.com/jaegertracing/jaeger-client-cpp
   check_success "Failed to download jaeger-client-cpp version $JG_VERSION"
@@ -27,7 +27,7 @@ fi
 
 echo -e $RESET $GREEN $BOLD $NL"Setting up jaeger-client-cpp version $JG_VERSION ..." $RESET
 current_dir=$(pwd)
-if [ ! -d jaeger-client-cpp/build]; then
+if [[ ! -d jaeger-client-cpp/build ]]; then
   cd jaeger-client-cpp
   mkdir build && cd build
   cmake ..
