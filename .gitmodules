@@ -1,3 +1,6 @@
 [submodule "src/temoto"]
 	path = src/temoto
 	url = https://github.com/temoto-telerobotics/temoto
+[submodule "src/temoto_output_manager"]
+	path = src/temoto_output_manager
+	url = https://github.com/temoto-telerobotics/temoto_output_manager

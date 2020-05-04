@@ -9,6 +9,27 @@ Components:
   required_parameters:
     filters: "pointcloud"
 
+- component_name: "Hokuyo 2D LIDAR"
+  component_type: "2d_lidar"
+  package_name: "temoto_ws"
+  executable:  "urg_node_remappable.launch"
+  output_topics:
+    lidar_data_2d: "scan"
+  required_parameters:
+    frame_id: "jackal_2d_lidar"
+    serial_port: "/dev/ttyACM1"
+
+- component_name: "Ouster OS-1 3D LIDAR"
+  component_type: "3d_lidar"
+  package_name: "temoto_ws"
+  executable:  "os1_remappable.launch"
+  output_topics:
+    lidar_data_3d: "points_raw"
+  required_parameters:
+    lidar_address: "10.5.5.55"
+    pc_address: "10.5.5.1"
+    lidar_frame_name: "os1_link"
+
 - component_name: "Box filter A"
   component_type: "box_filter"
   package_name: "pointcloud_filters"

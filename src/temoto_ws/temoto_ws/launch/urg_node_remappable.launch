@@ -1,9 +1,9 @@
 <launch>
   <arg name="serial_port" default="/dev/ttyACM1" />
-  <arg name="frame_id" default="jackal_2d_laser" /> 
-  <arg name="lidar_data" default="scan" />
+  <arg name="frame_id" default="jackal_2d_lidar" /> 
+  <arg name="lidar_data_2d" default="scan" />
 
-  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen">
+  <node name="urg_node" pkg="urg_node" type="urg_node" output="screen" required="true">
     <param name="ip_address" value=""/>
     <param name="serial_port" value="$(arg serial_port)"/>
     <param name="serial_baud" value="115200"/>
@@ -13,7 +13,7 @@
     <param name="publish_multiecho" value="false"/>
     <param name="angle_min" value="-1.5707963"/>
     <param name="angle_max" value="1.5707963"/>
-    <remap from="scan" to="$(arg lidar_data)"/>
+    <remap from="scan" to="$(arg lidar_data_2d)"/>
   </node>  
 
   <!-- Attatch the camera to the map frame. Comment this part out if not needed -->
