@@ -21,7 +21,7 @@ else
 fi
 
 echo -e $RESET$GREEN"Starting $JA_DOCKER_NAME docker container ..." $RESET
-sudo docker run \
+docker run \
   --rm \
   -p5775:5775/udp \
   -p6831:6831/udp \
