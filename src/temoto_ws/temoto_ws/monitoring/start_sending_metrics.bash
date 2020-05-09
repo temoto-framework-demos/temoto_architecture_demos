@@ -9,6 +9,6 @@ elif [ "$ARCHITECTURE" == "x86_64" ]; then
   ARCHITECTURE="amd64"
 fi
 
-./metrics_parser &
-./pushgateway-$PG_VERSION.linux-$ARCHITECTURE/pushgateway &&
+${TEMOTO_WORKSPACE_PATH}/monitoring/metrics_parser &
+${TEMOTO_WORKSPACE_PATH}/monitoring/pushgateway-$PG_VERSION.linux-$ARCHITECTURE/pushgateway &&
 kill $!
