@@ -74,6 +74,9 @@ if [[ $TRACE_COLLECTOR_IP != "local" ]]; then
   echo -e $RESET$GREEN$BOLD"TEMOTO_TRACE_COLLECTOR_IP$RESET$GREEN set to $TRACE_COLLECTOR_IP" $RESET
 fi
 
+export TEMOTO_WORKSPACE_PATH=$TEMOTO_WS_PATH
+echo -e $RESET$GREEN$BOLD"TEMOTO_WORKSPACE_PATH$RESET$GREEN set to $TEMOTO_WS_PATH" $RESET
+
 export TEMOTO_NAMESPACE=$TEMOTO_INSTANCE_NAME
 echo -e $RESET$GREEN$BOLD"TEMOTO_NAMESPACE$RESET$GREEN set to $TEMOTO_NAMESPACE" $RESET
 
@@ -82,3 +85,7 @@ echo -e $RESET$GREEN$BOLD"set alias$RESET$GREEN start_tracer_agent" $RESET
 
 alias start_sending_metrics="cur_path=$(pwd) && cd $TEMOTO_WS_PATH/monitoring/ && bash start_sending_metrics.bash && cd $cur_path"
 echo -e $RESET$GREEN$BOLD"set alias$RESET$GREEN start_sending_metrics" $RESET
+
+alias start_monitored_temoto="cur_path=$(pwd) && cd $TEMOTO_WS_PATH/scripts/ && bash start_monitored_temoto.bash && cd $cur_path"
+echo -e $RESET$GREEN$BOLD"set alias$RESET$GREEN start_monitored_temoto" $RESET
+
