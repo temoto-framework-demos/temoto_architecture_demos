@@ -1,0 +1,21 @@
+{
+    "name": "TaRemoteSensorControl",
+    "package_name": "ta_remote_sensor_control",
+    "suffix": "0",
+    "notation": "",
+    "effect": "asynchronous",
+    "input_parameters": {
+        "robot_name_1": {
+            "pvf_type": "string",
+            "pvf_value": "clearbot"
+        },
+        "robot_name_2": {
+            "pvf_type": "string",
+            "pvf_value": "jackal"
+        },
+        "sensor_name": {
+            "pvf_type": "string",
+            "pvf_value": "2d_camera"
+        }
+    }
+}

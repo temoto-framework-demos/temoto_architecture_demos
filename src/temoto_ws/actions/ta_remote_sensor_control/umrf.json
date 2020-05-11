@@ -1,0 +1,16 @@
+{
+    "name": "TaRemoteSensorControl",
+    "package_name": "ta_remote_sensor_control",
+    "effect": "asynchronous",
+    "input_parameters": {
+        "sensor_name": {
+            "pvf_type": "string"
+        },
+        "robot_name_1": {
+            "pvf_type": "string"
+        },
+        "robot_name_2": {
+            "pvf_type": "string"
+        }
+    }
+}
