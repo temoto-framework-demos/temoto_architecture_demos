@@ -65,7 +65,7 @@ void executeTemotoAction()
   ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar", requested_topics);
 
   // Get the name of the topic where camera feed is published
-  lidar_data_topic_2d = responded_topics.getOutputTopic("lidar_data_2d");
+  lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
 
   // Debug information
   TEMOTO_INFO_STREAM("Got 2d_lidar data on topic '" << lidar_data_topic_2d << "'");
@@ -83,11 +83,30 @@ void executeTemotoAction()
 void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_msg)
 {
   TEMOTO_WARN_STREAM("Received a status message:\n" << comp_srv_msg.request);
+
   if (comp_srv_msg.request.component_type == "2d_lidar")
   {
-    omi_.hideInRviz("laser scan", lidar_data_topic_2d);
+    // If the 2D LIDAR broke down, load the 3D LIDAR
+    omi_.hideInRviz("laser scan", lidar_data_topic_2d_);
     ComponentTopicsRes responded_topics = cmi_.startComponent("3d_lidar");
-    omi_.showInRviz("depth image", responded_topics.getOutputTopic("lidar_data_3d"));
+    lidar_data_topic_3d_ = responded_topics.getOutputTopic("lidar_data_3d");
+    omi_.showInRviz("depth image", lidar_data_topic_3d_);
+  }
+  else if (comp_srv_msg.request.component_type == "3d_lidar")
+  {
+    // If the 3D LIDAR broke down, load the 3D camera
+    omi_.hideInRviz("depth image", lidar_data_topic_3d_);
+    ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
+    lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
+    omi_.showInRviz("laser scan", lidar_data_topic_2d_);
+  }
+  else if (comp_srv_msg.request.component_type == "3d_camera")
+  {
+    // If the 3D camera broke down, load the 2D LIDAR
+    omi_.hideInRviz("depth image", camera_topic_3d);
+    ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
+    lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
+    omi_.showInRviz("laser scan", lidar_data_topic_2d_);
   }
 }
 
@@ -103,7 +122,9 @@ temoto_component_manager::ComponentManagerInterface<TaRedundantTeleopViz> cmi_;
 temoto_output_manager::OutputManagerInterface<TaRedundantTeleopViz> omi_;
 temoto_er_manager::ERManagerInterface<TaRedundantTeleopViz> ermi_;
 
-std::string lidar_data_topic_2d;
+std::string lidar_data_topic_2d_;
+std::string lidar_data_topic_3d_;
+std::string camera_topic_2d_;
 
 }; // TaRedundantTeleopViz class
 
