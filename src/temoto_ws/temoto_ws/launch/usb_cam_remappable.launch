@@ -2,13 +2,13 @@
   <arg name="camera_data_2d" default="usb_cam/image_raw" />
   <arg name="camera_info_2d" default="usb_cam/camera_info" />
   <arg name="video_device" default="/dev/video0" />
-  <!--arg name="camera_info_url" default="$(find temoto_test_ws)/config/camera_calibration_params$
+  <!--arg name="camera_info_url" default="$(find temoto_test_ws)/config/camera_calibration_params.yaml" /-->
   <arg name="frame_id" default="usb_cam" />
 
   <node name="usb_cam" pkg="usb_cam" type="usb_cam_node" output="screen" required="true" >
     <param name="video_device" value="$(arg video_device)" />
-    <param name="image_width" value="640" />
-    <param name="image_height" value="480" />
+    <param name="image_width" value="320" />
+    <param name="image_height" value="180" />
     <param name="pixel_format" value="yuyv" />
     <param name="camera_frame_id" value="$(arg frame_id)" />
     <param name="io_method" value="mmap"/>
@@ -19,5 +19,6 @@
   </node>
 
   <!-- Attatch the camera to the map frame. Comment this part out if not needed -->
-  <!--node name="static_camera_frame_publisher" pkg="tf" type="static_transform_publisher" args="$
+  <!--node name="static_camera_frame_publisher" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 /map /$(arg frame_id) 50"/-->
 </launch>
+
