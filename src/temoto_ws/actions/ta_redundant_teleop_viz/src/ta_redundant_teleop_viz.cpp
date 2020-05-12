@@ -68,11 +68,11 @@ void executeTemotoAction()
   lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
 
   // Debug information
-  TEMOTO_INFO_STREAM("Got 2d_lidar data on topic '" << lidar_data_topic_2d << "'");
+  TEMOTO_INFO_STREAM("Got 2d_lidar data on topic '" << lidar_data_topic_2d_ << "'");
 
   // Show the lidar output in rviz
   omi_.showInRviz("robot_model");
-  omi_.showInRviz("laser scan", lidar_data_topic_2d);
+  omi_.showInRviz("laser scan", lidar_data_topic_2d_);
   ermi_.loadResource("tf", "static_transform_publisher", "0 0 0 0 0 0 /world /odom 50");
 }
 
@@ -103,7 +103,7 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
   else if (comp_srv_msg.request.component_type == "3d_camera")
   {
     // If the 3D camera broke down, load the 2D LIDAR
-    omi_.hideInRviz("depth image", camera_topic_3d);
+    omi_.hideInRviz("depth image", camera_topic_2d_);
     ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
     lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
     omi_.showInRviz("laser scan", lidar_data_topic_2d_);
