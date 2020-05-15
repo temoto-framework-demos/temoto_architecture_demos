@@ -13,4 +13,6 @@ Robots:
       local_planner: "dwa_local_planner/DWAPlannerROS"
     driver:
       package_name: "temoto_ws" 
-      executable: "jackal_driver.launch"      
+      executable: "jackal_driver.launch"
+      odom_topic: "jackal_velocity_controller/odom"
+      cmd_vel_topic: "jackal_velocity_controller/cmd_vel"      
