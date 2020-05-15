@@ -3,8 +3,9 @@ Supplementary TeMoto architecture demo materials for TBD paper
 
 ## Dependencies
 
-**PCL**
+**temoto_robot_manager**
 ``` bash
-$ sudo apt install libpcl-dev
-$ sudo apt install ros-melodic-pcl-ros
+git clone -b FabianPG https://github.com/temoto-telerobotics/temoto_robot_manager
+$ sudo apt install ros-melodic-move-base-msgs
+$ sudo apt install ros-melodic-moveit-ros-planning-interface
 ```

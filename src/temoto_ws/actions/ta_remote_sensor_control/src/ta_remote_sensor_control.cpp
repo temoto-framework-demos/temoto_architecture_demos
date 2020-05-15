@@ -21,8 +21,10 @@
 #include <class_loader/class_loader.hpp>
 #include "ta_remote_sensor_control/temoto_action.h"
 #include "ta_remote_sensor_control/macros.h"
+
 #include "temoto_component_manager/component_manager_interface.h"
 #include "temoto_output_manager/output_manager_interface.h"
+#include "temoto_robot_manager/robot_manager_interface.h"
 
 /* 
  * ACTION IMPLEMENTATION of TaRemoteSensorControl 
@@ -48,26 +50,42 @@ void executeTemotoAction()
    // Initialize the manager interfaces
   cmi_.initialize(this);
   omi_.initialize(this);
+  rmi_.initialize(this);
   cmi_.registerComponentStatusCallback(&TaRemoteSensorControl::componentStatusCb);
 
-  // A structure for containing component topic related information
-  ComponentTopicsReq requested_topics;
-  temoto_component_manager::LoadComponent load_component_srv_msg;
-  sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback";
+  // Load the robot and get its configuration
+  // TEMOTO_INFO_STREAM("loading " << robot_name_1_);
+  // rmi_.loadRobot(robot_name_1_);
+  // TEMOTO_INFO_STREAM(robot_name_1_ << " initialized");
 
-  TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
-  if (sensor_name_ == "2d_camera")
-  {
-    requested_topics.addOutputTopic("camera_data_2d", sensor_topic_);
-    load_component_srv_msg.request.component_type = sensor_name_;
-    load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
+  TEMOTO_INFO_STREAM("trying to get config of '" << robot_name_1_ << "' ...");
+  YAML::Node robot_1_config = rmi_.getRobotConfig(robot_name_1_);
+  TEMOTO_INFO_STREAM("got it");
+  TEMOTO_INFO_STREAM("Config of robot '" << robot_name_1_ << "': " << robot_1_config);
 
-    ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_1_);
-    std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_2d");
-    TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
+  std::string robot_1_cmd_vel_topic = robot_1_config["robot_absolute_namespace"].as<std::string>() + "/"
+    + robot_1_config["navigation"]["driver"]["cmd_vel_topic"].as<std::string>();
 
-    omi_.showInRviz("image", sensor_topic_);
-  }
+  TEMOTO_INFO_STREAM("cmd_vel topic of '" << robot_name_1_ << "' is '" << robot_1_cmd_vel_topic << "'");
+
+  // // A structure for containing component topic related information
+  // ComponentTopicsReq requested_topics;
+  // temoto_component_manager::LoadComponent load_component_srv_msg;
+  // sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback";
+
+  // TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
+  // if (sensor_name_ == "2d_camera")
+  // {
+  //   requested_topics.addOutputTopic("camera_data_2d", sensor_topic_);
+  //   load_component_srv_msg.request.component_type = sensor_name_;
+  //   load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
+
+  //   ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_1_);
+  //   std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_2d");
+  //   TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
+
+  //   omi_.showInRviz("image", sensor_topic_);
+  // }
 }
 
 void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_msg)
@@ -96,6 +114,7 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
 // Create manager interface objects
 temoto_component_manager::ComponentManagerInterface<TaRemoteSensorControl> cmi_;
 temoto_output_manager::OutputManagerInterface<TaRemoteSensorControl> omi_;
+robot_manager::RobotManagerInterface<TaRemoteSensorControl> rmi_;
 
 std::string sensor_topic_;
 std::string sensor_name_;

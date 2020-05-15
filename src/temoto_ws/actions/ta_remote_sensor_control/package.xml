@@ -43,6 +43,7 @@
   <depend>temoto_core</depend>
   <depend>temoto_component_manager</depend>
   <depend>temoto_output_manager</depend>
+  <depend>temoto_robot_manager</depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

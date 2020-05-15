@@ -19,6 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
   temoto_core
   temoto_component_manager
   temoto_output_manager
+  temoto_robot_manager
 )
 
 catkin_package()

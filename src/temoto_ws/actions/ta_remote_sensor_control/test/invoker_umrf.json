@@ -7,11 +7,11 @@
     "input_parameters": {
         "robot_name_1": {
             "pvf_type": "string",
-            "pvf_value": "clearbot"
+            "pvf_value": "jackal"
         },
         "robot_name_2": {
             "pvf_type": "string",
-            "pvf_value": "jackal"
+            "pvf_value": "clearbot"
         },
         "sensor_name": {
             "pvf_type": "string",
