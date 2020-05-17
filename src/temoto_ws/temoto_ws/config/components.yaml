@@ -1,4 +1,11 @@
 Components:
+- component_name: "PS4 joystick teleop"
+  component_type: "joystick_twist"
+  package_name: "temoto_ws"
+  executable:  "joy_teleop.launch"
+  output_topics:
+    cmd_vel: "cmd_vel"
+
 - component_name: "String spammer 0"
   component_type: "cs_test_0"
   package_name: "dummy_components"

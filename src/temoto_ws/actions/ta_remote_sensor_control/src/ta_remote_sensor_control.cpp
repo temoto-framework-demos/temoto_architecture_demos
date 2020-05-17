@@ -53,39 +53,48 @@ void executeTemotoAction()
   rmi_.initialize(this);
   cmi_.registerComponentStatusCallback(&TaRemoteSensorControl::componentStatusCb);
 
-  // Load the robot and get its configuration
-  // TEMOTO_INFO_STREAM("loading " << robot_name_1_);
-  // rmi_.loadRobot(robot_name_1_);
-  // TEMOTO_INFO_STREAM(robot_name_1_ << " initialized");
+  /*
+   * Load the robot and get its configuration
+   */ 
+  TEMOTO_INFO_STREAM("loading " << robot_name_1_);
+  rmi_.loadRobot(robot_name_1_);
+  TEMOTO_INFO_STREAM(robot_name_1_ << " initialized");
 
   TEMOTO_INFO_STREAM("trying to get config of '" << robot_name_1_ << "' ...");
   YAML::Node robot_1_config = rmi_.getRobotConfig(robot_name_1_);
-  TEMOTO_INFO_STREAM("got it");
   TEMOTO_INFO_STREAM("Config of robot '" << robot_name_1_ << "': " << robot_1_config);
 
   std::string robot_1_cmd_vel_topic = robot_1_config["robot_absolute_namespace"].as<std::string>() + "/"
     + robot_1_config["navigation"]["driver"]["cmd_vel_topic"].as<std::string>();
-
   TEMOTO_INFO_STREAM("cmd_vel topic of '" << robot_name_1_ << "' is '" << robot_1_cmd_vel_topic << "'");
 
-  // // A structure for containing component topic related information
-  // ComponentTopicsReq requested_topics;
-  // temoto_component_manager::LoadComponent load_component_srv_msg;
-  // sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback";
+  /*
+   * Load a joystick for controlling the robot
+   */
+  ComponentTopicsReq requested_topics_joystick;
+  requested_topics_joystick.addOutputTopic("cmd_vel", robot_1_cmd_vel_topic);
+  cmi_.startComponent("joystick_twist", requested_topics_joystick);
 
-  // TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
-  // if (sensor_name_ == "2d_camera")
-  // {
-  //   requested_topics.addOutputTopic("camera_data_2d", sensor_topic_);
-  //   load_component_srv_msg.request.component_type = sensor_name_;
-  //   load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
+  /*
+   * Load a camera for teleoperation feedback and show the feedback in rviz
+   */
+  ComponentTopicsReq requested_topics;
+  temoto_component_manager::LoadComponent load_component_srv_msg;
+  sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback";
 
-  //   ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_1_);
-  //   std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_2d");
-  //   TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
+  TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
+  if (sensor_name_ == "2d_camera")
+  {
+    requested_topics.addOutputTopic("camera_data_2d", sensor_topic_);
+    load_component_srv_msg.request.component_type = sensor_name_;
+    load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
 
-  //   omi_.showInRviz("image", sensor_topic_);
-  // }
+    ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_1_);
+    std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_2d");
+    TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
+
+    omi_.showInRviz("image", sensor_topic_);
+  }
 }
 
 void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_msg)
