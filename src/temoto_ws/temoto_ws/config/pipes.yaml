@@ -1,3 +1,23 @@
+ar_tag_tracking:
+- method:
+
+  - segment_type: "2d_camera"
+    required_parameters:
+      - frame_id
+    output_topic_types:
+      - camera_info
+      - camera_data
+
+  - segment_type: "ar_tag_tracker"
+    required_parameters:
+      - frame_id
+    input_topic_types:
+      - camera_info
+      - camera_data
+    output_topic_types:
+      - visualization_data
+      - ar_tag_data
+
 processed_pointcloud:
 - method:
 

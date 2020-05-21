@@ -20,45 +20,26 @@ Components:
   required_parameters:
     filters: "pointcloud"
 
-- component_name: "String spammer 0"
-  component_type: "cs_test_0"
-  package_name: "dummy_components"
-  executable:  "component_string_0"
-  output_topics:
-    data_type_0: "cs_0_pub_0"
-    data_type_1: "cs_0_pub_1"
-
-- component_name: "String spammer 1"
-  component_type: "cs_test_1"
-  package_name: "dummy_components"
-  executable:  "component_string_1"
+- component_name: "My AR tag tracker"
+  component_type: "ar_tag_tracker"
+  package_name: "temoto_ws"
+  executable:  "artag_remappable.launch"
   input_topics:
-    data_type_0: "cs_1_sub_0"
-    data_type_1: "cs_1_sub_1"
+    camera_info: "camera_info"
+    camera_data: "usb_cam/raw"
   output_topics:
-    data_type_2: "cs_1_pub_0"
-    data_type_3: "cs_1_pub_1"
+    visualization_data: "visualization_marker"
+    ar_tag_data: "ar_pose_marker"
+  required_parameters:
+    frame_id: "camera_link"
 
-- component_name: "String spammer 2_a"
-  component_type: "cs_test_2"
-  package_name: "dummy_components"
-  executable:  "component_string_2_a"
-  reliability: 0.8
+- component_name: "AR tag follower algorithm"
+  component_type: "ar_cmd_vel_follower"
+  package_name: "temoto_ws"
+  executable:  "ar_tag_follower.py"
   input_topics:
-    data_type_2: "cs_2_sub_0"
-    data_type_3: "cs_2_sub_1"
+    ar_tag_data: "ar_pose_marker"
   output_topics:
-    data_type_4: "cs_2_pub_0"
-    data_type_5: "cs_2_pub_1"
+    cmd_vel: "cmd_vel"
 
-# - component_name: "String spammer 2_b"
-#   component_type: "cs_test_2"
-#   package_name: "dummy_components"
-#   executable:  "component_string_2_b"
-#   reliability: 0.9
-#   input_topics:
-#     data_type_2: "cs_2_sub_0"
-#     data_type_3: "cs_2_sub_1"
-#   output_topics:
-#     data_type_4: "cs_2_pub_0"
-#     data_type_5: "cs_2_pub_1"
+

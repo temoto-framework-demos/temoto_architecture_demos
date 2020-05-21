@@ -1,0 +1,13 @@
+Robots:
+- robot_name: "clearbot"
+  description: "clearbot"
+  reliability: 0.8
+  urdf:
+    package_name: "robotont_description"
+    executable: "xacro/main.urdf.xacro"
+  navigation:
+    driver:
+      package_name: "temoto_ws" 
+      executable: "clearbot_driver.launch"
+      odom_topic: "odom"
+      cmd_vel_topic: "cmd_vel"

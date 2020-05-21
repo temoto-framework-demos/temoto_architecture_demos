@@ -9,6 +9,11 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   temoto
   temoto_action_assistant
+  robotont_driver
+  robotont_description
+  ar_track_alvar
+  geometry_msgs
+  usb_cam
 )
 
 catkin_package()
@@ -16,4 +21,8 @@ catkin_package()
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+)
+
+catkin_install_python(PROGRAMS scripts/ar_tag_follower.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
