@@ -14,8 +14,8 @@ Components:
   package_name: "temoto_ws"
   executable:  "usb_cam_remappable.launch"
   output_topics:
-    camera_data_2d: "usb_cam/image_raw"
-    camera_info_2d: "usb_cam/camera_info"
+    camera_data: "usb_cam/image_raw"
+    camera_info: "usb_cam/camera_info"
   required_parameters:
     frame_id: "camera_link"
     video_device: "/dev/video2"

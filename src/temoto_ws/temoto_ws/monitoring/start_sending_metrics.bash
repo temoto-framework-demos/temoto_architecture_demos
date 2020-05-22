@@ -10,5 +10,6 @@ elif [ "$ARCHITECTURE" == "x86_64" ]; then
 fi
 
 ${TEMOTO_WORKSPACE_PATH}/monitoring/metrics_parser &
+${TEMOTO_WORKSPACE_PATH}/monitoring/get_jackal_power_metrics &
 ${TEMOTO_WORKSPACE_PATH}/monitoring/pushgateway-$PG_VERSION.linux-$ARCHITECTURE/pushgateway &&
 kill $!
