@@ -4,8 +4,8 @@ Components:
   package_name: "temoto_ws"
   executable:  "usb_cam_remappable.launch"
   output_topics:
-    camera_data_2d: "usb_cam/image_raw"
-    camera_info_2d: "usb_cam/camera_info"
+    camera_data: "usb_cam/image_raw"
+    camera_info: "usb_cam/camera_info"
   required_parameters:
     frame_id: "camera_link"
     video_device: "/dev/video2"
@@ -23,7 +23,7 @@ Components:
 - component_name: "My AR tag tracker"
   component_type: "ar_tag_tracker"
   package_name: "temoto_ws"
-  executable:  "artag_remappable.launch"
+  executable:  "ar_tag_remappable.launch"
   input_topics:
     camera_info: "camera_info"
     camera_data: "usb_cam/raw"

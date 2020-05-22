@@ -5,7 +5,7 @@
 
   <arg name="camera_data" default="usb_cam/image_raw" />
   <arg name="camera_info" default="usb_cam/camera_info" />
-  <arg name="tag_data" default="ar_pose_marker" />
+  <arg name="ar_tag_data" default="ar_pose_marker" />
   <arg name="visualization_data" default="visualization_marker" />
   <arg name="frame_id" default="/usb_cam" />
   
@@ -17,7 +17,7 @@
     
     <remap from="camera_image"  to="$(arg camera_data)" />
     <remap from="camera_info"   to="$(arg camera_info)" />
-    <remap from="ar_pose_marker"   to="$(arg tag_data)" />
+    <remap from="ar_pose_marker"   to="$(arg ar_tag_data)" />
     <remap from="visualization_marker"   to="$(arg visualization_data)" />
   </node>
 </launch>

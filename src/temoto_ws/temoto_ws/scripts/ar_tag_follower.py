@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python
 
 import rospy
 from geometry_msgs.msg import Twist
@@ -20,6 +20,11 @@ MAX_Z_SPEED = 2
 
 
 def keep_distance(x, y, z, roll, pitch, yaw, twist):
+    if z > 1.1:
+        twist.linear.x = min(2*(z-1.1), 0.5)
+
+    elif z < 1.0:
+        twist.linear.x = max(2*(z-1.0), -0.5)
 
     return twist
 
@@ -27,14 +32,21 @@ def keep_distance(x, y, z, roll, pitch, yaw, twist):
 
 
 def keep_center(x, y, z, roll, pitch, yaw, twist):
-
+    if x > 0.03:
+        twist.linear.y = 1.5*x
+    elif x < -0.03:
+        twist.linear.y = 1.5*x
     return twist
 
 # TASK 3
 
 
 def turn_towards_ar(x, y, z, roll, pitch, yaw, twist):
-
+    angle = -1*atan2(x, z)
+    if angle > 0.05:
+        twist.angular.z = 2*angle
+    elif angle < -0.05:
+        twist.angular.z = 2*angle
     return twist
 
 
@@ -64,7 +76,7 @@ def callback(data):
         rospy.loginfo("RPY: %s %s %s", roll, pitch, yaw)
 
         # Change this to your marker ID
-        if marker.id == 4:
+        if marker.id == 0:
             global cmd_vel_pub
             last_heartbeat = rospy.get_time()
 
