@@ -80,17 +80,19 @@ void executeTemotoAction()
    */
   ComponentTopicsReq requested_topics;
   temoto_component_manager::LoadComponent load_component_srv_msg;
-  sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback";
+  sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/camera_data";
+  sensor_info_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/camera_info";
 
   TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
   if (sensor_name_ == "2d_camera")
   {
-    requested_topics.addOutputTopic("camera_data_2d", sensor_topic_);
+    requested_topics.addOutputTopic("camera_data", sensor_topic_);
+    requested_topics.addOutputTopic("camera_info", sensor_info_topic_);
     load_component_srv_msg.request.component_type = sensor_name_;
     load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
 
     ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_1_);
-    std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_2d");
+    std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data");
     TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
 
     omi_.showInRviz("image", sensor_topic_);
@@ -105,12 +107,13 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
 
   ComponentTopicsReq requested_topics;
   temoto_component_manager::LoadComponent load_component_srv_msg;
-  requested_topics.addOutputTopic("camera_data_2d", sensor_topic_);
+  requested_topics.addOutputTopic("camera_data", sensor_topic_);
+  requested_topics.addOutputTopic("camera_info", sensor_info_topic_);
   load_component_srv_msg.request.component_type = sensor_name_;
   load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
   
   ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_2_);
-  std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_2d");
+  std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data");
   TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
 }
 
@@ -126,6 +129,7 @@ temoto_output_manager::OutputManagerInterface<TaRemoteSensorControl> omi_;
 robot_manager::RobotManagerInterface<TaRemoteSensorControl> rmi_;
 
 std::string sensor_topic_;
+std::string sensor_info_topic_;
 std::string sensor_name_;
 std::string robot_name_1_;
 std::string robot_name_2_;
