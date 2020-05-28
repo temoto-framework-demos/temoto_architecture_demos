@@ -1,5 +1,6 @@
 <launch>
   <arg name="camera_data" default="usb_cam/image_raw" />
+  <arg name="camera_data_compressed" default="usb_cam/image_raw/compressed" />
   <arg name="camera_info" default="usb_cam/camera_info" /> 
   <arg name="video_device" default="/dev/video0" />
   <arg name="camera_info_url" default="$(find temoto_ws)/config/camera_calibration_params.yaml" />
@@ -15,6 +16,7 @@
     <param name="camera_info_url" value="file://$(arg camera_info_url)"/>
 
     <remap from="usb_cam/image_raw" to="$(arg camera_data)" />
+    <remap from="usb_cam/image_raw/compressed" to="$(arg camera_data_compressed)" />
     <remap from="usb_cam/camera_info" to="$(arg camera_info)" />
   </node>
 

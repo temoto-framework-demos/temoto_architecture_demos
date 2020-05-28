@@ -21,10 +21,10 @@ MAX_Z_SPEED = 2
 
 def keep_distance(x, y, z, roll, pitch, yaw, twist):
     if z > 0.7:
-        twist.linear.x = min(2*(z-0.7), 0.5)
+        twist.linear.x = min(1.0*(z-0.7), 0.5)
 
-    elif z < 0.8:
-        twist.linear.x = max(2*(z-0.8), -0.5)
+    elif z < 0.85:
+        twist.linear.x = max(1.0*(z-0.85), -0.5)
 
     return twist
 
@@ -33,9 +33,9 @@ def keep_distance(x, y, z, roll, pitch, yaw, twist):
 
 def keep_center(x, y, z, roll, pitch, yaw, twist):
     if x > 0.03:
-        twist.linear.y = -1.9*x
+        twist.linear.y = -1.2*x
     elif x < -0.03:
-        twist.linear.y = -1.9*x
+        twist.linear.y = -1.2*x
     return twist
 
 # TASK 3
@@ -44,14 +44,14 @@ def keep_center(x, y, z, roll, pitch, yaw, twist):
 def turn_towards_ar(x, y, z, roll, pitch, yaw, twist):
     angle = -1*atan2(x, z)
     if angle > 0.05:
-        twist.angular.z = 2*angle
+        twist.angular.z = 1.5*angle
     elif angle < -0.05:
-        twist.angular.z = 2*angle
+        twist.angular.z = 1.5*angle
 
     if pitch > 0.1:
-        twist.angular.z = twist.angular.z - 1.1*pitch 
+        twist.angular.z = twist.angular.z - 0.9*pitch 
     elif pitch < -0.1:
-        twist.angular.z = twist.angular.z - 1.1*pitch
+        twist.angular.z = twist.angular.z - 0.9*pitch
 
     return twist
 
@@ -105,7 +105,7 @@ def callback(data):
 
 def timer_callback(event):
     global last_heartbeat
-    if (rospy.get_time() - last_heartbeat) >= 0.05:
+    if (rospy.get_time() - last_heartbeat) >= 0.2:
         cmd_vel_pub.publish(Twist())
 
 
