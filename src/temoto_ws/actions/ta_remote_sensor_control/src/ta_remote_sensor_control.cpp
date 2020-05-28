@@ -25,6 +25,8 @@
 #include "temoto_component_manager/component_manager_interface.h"
 #include "temoto_output_manager/output_manager_interface.h"
 #include "temoto_robot_manager/robot_manager_interface.h"
+#include "temoto_action_engine/umrf_json_converter.h"
+#include "temoto_action_engine/UmrfJsonGraph.h"
 
 /* 
  * ACTION IMPLEMENTATION of TaRemoteSensorControl 
@@ -80,41 +82,98 @@ void executeTemotoAction()
    */
   ComponentTopicsReq requested_topics;
   temoto_component_manager::LoadComponent load_component_srv_msg;
-  sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/camera_data";
+  sensor_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/camera_data/compressed";
   sensor_info_topic_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/camera_info";
 
   TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
   if (sensor_name_ == "2d_camera")
   {
-    requested_topics.addOutputTopic("camera_data", sensor_topic_);
+    requested_topics.addOutputTopic("camera_data_compressed", sensor_topic_);
     requested_topics.addOutputTopic("camera_info", sensor_info_topic_);
     load_component_srv_msg.request.component_type = sensor_name_;
     load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
 
     ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_1_);
-    std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data");
+    std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_compressed");
     TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
 
-    omi_.showInRviz("image", sensor_topic_);
+    omi_.showInRviz("compressed_image", sensor_topic_);
   }
 }
 
+/**
+ * @brief This function is invoked by Component Manager Interface whenever
+ * any allocated component should fail
+ * 
+ * @param comp_srv_msg The message that was used to load the component
+ */
 void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_msg)
 {
   TEMOTO_WARN_STREAM("Received a status message:\n" << comp_srv_msg.request);
+
+  /*
+   * Try to load the same component on a different robot
+   */ 
   TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component on " << robot_name_2_ << " ...");
-  //omi_.hideInRviz("image", sensor_topic_);
 
   ComponentTopicsReq requested_topics;
   temoto_component_manager::LoadComponent load_component_srv_msg;
-  requested_topics.addOutputTopic("camera_data", sensor_topic_);
+  requested_topics.addOutputTopic("camera_data_compressed", sensor_topic_);
   requested_topics.addOutputTopic("camera_info", sensor_info_topic_);
   load_component_srv_msg.request.component_type = sensor_name_;
   load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
   
   ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_2_);
-  std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data");
+  std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_compressed");
   TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
+
+  /*
+   * Make the second robot escort the robot that had the component failure
+   */
+  Umrf umrf;
+  umrf.setName("TaFollowArTag");
+  umrf.setSuffix("0");
+  umrf.setEffect("asynchronous");
+
+  // ActionParameters ap;
+  // ap.setParameter("ar_tag_id", "number", boost::any_cast<double>(0.0));
+  // umrf.setInputParameters(ap);
+
+  temoto_action_engine::UmrfJsonGraph umrf_graph_msg;
+  umrf_graph_msg.graph_name = "escort_jackal";
+  umrf_graph_msg.umrf_json_strings.push_back(umrf_json_converter::toUmrfJsonStr(umrf));
+  umrf_graph_msg.name_match_required = true;
+  umrf_graph_msg.targets.push_back(robot_name_2_);
+
+  publishUmrfGraph(umrf_graph_msg);
+}
+
+void publishUmrfGraph(const temoto_action_engine::UmrfJsonGraph& umrf_graph_msg)
+{
+  ros::NodeHandle nh;
+  ros::Publisher umrf_graph_pub = nh.advertise<temoto_action_engine::UmrfJsonGraph>("/umrf_graph_topic", 1);
+
+  /*
+   * Wait until there is somebody to publish the message to
+   */
+  TEMOTO_INFO_STREAM("Waiting for subscribers ...");
+  while (umrf_graph_pub.getNumSubscribers() <= 0 && ros::ok())
+  {
+    ros::Duration(0.1).sleep();
+  }
+
+  /*
+   * Publish the UMRF JSON graph
+   */
+  TEMOTO_INFO_STREAM("Publishing the UMRF Graph message ...");
+  if (ros::ok())
+  {
+    // Sleep for some time, so that "all" possible pub/sub connections are made
+    ros::Duration(3).sleep();
+    umrf_graph_pub.publish(umrf_graph_msg);
+  }
+
+  TEMOTO_INFO_STREAM("UMRF Graph message published, shutting down.");
 }
 
 // Destructor
