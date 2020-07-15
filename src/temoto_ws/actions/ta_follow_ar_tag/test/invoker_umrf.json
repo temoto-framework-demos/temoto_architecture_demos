@@ -1,7 +1,7 @@
 {
     "name": "TaFollowArTag",
     "package_name": "ta_follow_ar_tag",
-    "suffix": "0",
+    "id": 0,
     "notation": "",
     "effect": "asynchronous"
 }

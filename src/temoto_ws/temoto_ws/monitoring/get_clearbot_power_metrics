@@ -1,0 +1,26 @@
+#!/bin/bash
+
+NR_OF_CPUS=$(nproc)
+nl=$'\n'
+
+if [[ -z "${TEMOTO_NAMESPACE}" ]]; then
+  DATA_PREFIX=''
+else
+  DATA_PREFIX=${TEMOTO_NAMESPACE}
+fi
+
+while sleep 1
+do
+  clearbot_status=$(rostopic echo -n 1 /clearbot/robot_manager/robots/clearbot/power_supply | egrep "current:|voltage:")
+  clearbot_voltage=$(echo $clearbot_status | awk '{print $4}')
+  clearbot_current_total=$(echo $clearbot_status | awk '{print $2}')
+  clearbot_power_total=$(echo $clearbot_voltage*$clearbot_current_total | bc -l)
+
+  var_pow="power_consumption{system_id=\"$DATA_PREFIX total\"} $clearbot_power_total$nl"
+  
+  echo $var_pow
+
+  curl -X POST -H  "Content-Type: text/plain" --data "$var_pow
+  " http://localhost:9091/metrics/job/top/instance/machine
+
+done
