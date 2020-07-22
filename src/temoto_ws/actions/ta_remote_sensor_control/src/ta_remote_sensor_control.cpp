@@ -56,7 +56,7 @@ void executeTemotoAction()
   cmi_.registerComponentStatusCallback(&TaRemoteSensorControl::componentStatusCb);
 
   /*
-   * Load the robot and get its configuration
+   * Load the robot 1 and get its configuration
    */ 
   TEMOTO_INFO_STREAM("loading " << robot_name_1_);
   rmi_.loadRobot(robot_name_1_);
@@ -65,6 +65,17 @@ void executeTemotoAction()
   TEMOTO_INFO_STREAM("trying to get config of '" << robot_name_1_ << "' ...");
   YAML::Node robot_1_config = rmi_.getRobotConfig(robot_name_1_);
   TEMOTO_INFO_STREAM("Config of robot '" << robot_name_1_ << "': " << robot_1_config);
+
+  /*
+   * Load the robot 2 and get its configuration
+   */ 
+  TEMOTO_INFO_STREAM("loading " << robot_name_2_);
+  rmi_.loadRobot(robot_name_2_);
+  TEMOTO_INFO_STREAM(robot_name_2_ << " initialized");
+
+  TEMOTO_INFO_STREAM("trying to get config of '" << robot_name_2_ << "' ...");
+  YAML::Node robot_2_config = rmi_.getRobotConfig(robot_name_2_);
+  TEMOTO_INFO_STREAM("Config of robot '" << robot_name_2_ << "': " << robot_2_config);
 
   std::string robot_1_cmd_vel_topic = robot_1_config["robot_absolute_namespace"].as<std::string>() + "/"
     + robot_1_config["navigation"]["driver"]["cmd_vel_topic"].as<std::string>();
@@ -132,7 +143,7 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
    */
   Umrf umrf;
   umrf.setName("TaFollowArTag");
-  umrf.setSuffix("0");
+  umrf.setSuffix(0);
   umrf.setEffect("asynchronous");
 
   // ActionParameters ap;

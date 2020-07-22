@@ -1,7 +1,7 @@
 {
     "name": "TaRemoteSensorControl",
     "package_name": "ta_remote_sensor_control",
-    "suffix": "0",
+    "id": 0,
     "notation": "",
     "effect": "asynchronous",
     "input_parameters": {
