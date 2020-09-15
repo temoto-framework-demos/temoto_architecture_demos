@@ -1,0 +1,12 @@
+{
+    "name": "TaInitializeRobot",
+    "package_name": "ta_initialize_robot",
+    "effect": "asynchronous",
+    "id": 0,
+    "input_parameters": {
+        "robot_name": {
+            "pvf_type": "string",
+            "pvf_value": "jackal"
+        }
+    }
+}

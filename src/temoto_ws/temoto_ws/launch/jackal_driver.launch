@@ -1,5 +1,5 @@
 <launch>
-  <node pkg="jackal_base" type="jackal_node" name="jackal_node">
+  <node pkg="jackal_base" type="jackal_node" name="jackal_node" required="true">
     <rosparam>
       # TODO: Specify these in code rather than here.
       require:
@@ -26,8 +26,7 @@
   <!-- Translate Sentence messages from the MCU to NavSatFix messages -->
   <node pkg="nmea_navsat_driver" type="nmea_topic_driver" name="nmea_topic_driver" ns="navsat" />
 
-
-
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
 
   <node pkg="imu_filter_madgwick" type="imu_filter_node" name="imu_filter">
     <!-- This environment variable is populated by an env hook in the jackal_base

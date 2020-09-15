@@ -1,7 +1,7 @@
 {
     "name": "TaRedundantTeleopViz",
     "package_name": "ta_redundant_teleop_viz",
-    "suffix": "0",
+    "id": 0,
     "notation": "",
     "effect": "asynchronous"
 }
