@@ -22,7 +22,7 @@
 #include "ta_redundant_teleop_viz/macros.h"
 #include "temoto_component_manager/component_manager_interface.h"
 #include "temoto_output_manager/output_manager_interface.h"
-//#include "temoto_er_manager/temoto_er_manager_interface.h"
+#include "temoto_er_manager/temoto_er_manager_interface.h"
 #include "temoto_robot_manager/robot_manager_interface.h"
 
 /* 
@@ -44,7 +44,7 @@ void executeTemotoAction()
   // Initialize the manager interfaces
   cmi_.initialize(this);
   omi_.initialize(this);
-  //ermi_.initialize(this);
+  ermi_.initialize(this);
   rmi_.initialize(this);
 
   cmi_.registerComponentStatusCallback(&TaRedundantTeleopViz::componentStatusCb);
@@ -64,6 +64,10 @@ void executeTemotoAction()
     + robot_config["navigation"]["driver"]["cmd_vel_topic"].as<std::string>();
   TEMOTO_INFO_STREAM("cmd_vel topic of '" << robot_name_ << "' is '" << robot_cmd_vel_topic << "'");
 
+  std::string robot_description_name = robot_config["robot_absolute_namespace"].as<std::string>()
+   + "/robot_description";
+  TEMOTO_INFO_STREAM("robot_description of '" << robot_name_ << "' is '" << robot_description_name << "'");
+
   /*
    * Load a joystick for controlling the robot
    */
@@ -72,7 +76,7 @@ void executeTemotoAction()
   cmi_.startComponent("joystick_twist", requested_topics_joystick);
 
   /*
-   * Load a lidar for teleoperation feedback and show the feedback in rviz
+   * Load a 2D lidar for teleoperation feedback
    */
   ComponentTopicsReq requested_topics;
   temoto_component_manager::LoadComponent load_component_srv_msg;
@@ -88,12 +92,33 @@ void executeTemotoAction()
   std::string lidar_data_topic_2d_res = responded_topics.getOutputTopic("lidar_data_2d");
   TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << lidar_data_topic_2d_res << "'");
 
-  omi_.showInRviz("laser scan", lidar_data_topic_2d_);
+  /*
+   * Load a 3D lidar for teleoperation feedback
+   */
+  ComponentTopicsReq requested_topics_3dl;
+  temoto_component_manager::LoadComponent load_component_srv_msg_3dl;
+  std::string sensor_name_3dl = "3d_lidar";
+  std::string lidar_data_topic_3dl = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/lidar_data_3d";
 
-  // Show the lidar output in rviz
-  //omi_.showInRviz("robot_model");
-  //omi_.showInRviz("laser scan", lidar_data_topic_2d_);
-  //ermi_.loadResource("tf", "static_transform_publisher", "0 0 0 0 0 0 /world /odom 50");
+  TEMOTO_INFO_STREAM("Starting the " << sensor_name_3dl << " component ...");
+  requested_topics_3dl.addOutputTopic("lidar_data_3d", lidar_data_topic_3dl);
+  load_component_srv_msg_3dl.request.component_type = sensor_name_3dl;
+  load_component_srv_msg_3dl.request.output_topics = requested_topics_3dl.outputTopicsAsKeyValues();
+
+  ComponentTopicsRes responded_topics_3dl = cmi_.startComponent(load_component_srv_msg_3dl, robot_name_);
+  std::string lidar_data_topic_3dl_res = responded_topics_3dl.getOutputTopic("lidar_data_3d");
+  TEMOTO_INFO_STREAM("Got " << sensor_name_3dl <<  " data on topic '" << lidar_data_topic_3dl_res << "'");
+
+  /*
+   * Show the sensor data and the robot in RViz
+   */ 
+  std::string robot_viz_conf_test = "{Robot Description: " + robot_description_name + "}";
+  omi_.showInRviz("robot_model", "", robot_viz_conf_test);
+  omi_.showInRviz("laser scan", lidar_data_topic_2d_);
+  omi_.showInRviz("depth image", lidar_data_topic_3dl_res);
+  
+  // Start a static tf publisher which links the "world" frame with "base_link" frame
+  ermi_.loadResource("tf", "static_transform_publisher", "0 0 0 0 0 0 /world /base_link 50");
 }
 
 /**
@@ -140,7 +165,7 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
 // Create manager interface objects
 temoto_component_manager::ComponentManagerInterface<TaRedundantTeleopViz> cmi_;
 temoto_output_manager::OutputManagerInterface<TaRedundantTeleopViz> omi_;
-//temoto_er_manager::ERManagerInterface<TaRedundantTeleopViz> ermi_;
+temoto_er_manager::ERManagerInterface<TaRedundantTeleopViz> ermi_;
 robot_manager::RobotManagerInterface<TaRedundantTeleopViz> rmi_;
 
 std::string lidar_data_topic_2d_;
