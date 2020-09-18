@@ -78,44 +78,61 @@ void executeTemotoAction()
   /*
    * Load a 2D lidar for teleoperation feedback
    */
-  ComponentTopicsReq requested_topics;
-  temoto_component_manager::LoadComponent load_component_srv_msg;
-  std::string sensor_name_ = "2d_lidar";
-  std::string lidar_data_topic_2d_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/lidar_data_2d";
+  // ComponentTopicsReq requested_topics;
+  // temoto_component_manager::LoadComponent load_component_srv_msg;
+  // std::string sensor_name_ = "2d_lidar";
+  // std::string lidar_data_topic_2d_ = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/lidar_data_2d";
 
-  TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
-  requested_topics.addOutputTopic("lidar_data_2d", lidar_data_topic_2d_);
-  load_component_srv_msg.request.component_type = sensor_name_;
-  load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
+  // TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component ...");
+  // requested_topics.addOutputTopic("lidar_data_2d", lidar_data_topic_2d_);
+  // load_component_srv_msg.request.component_type = sensor_name_;
+  // load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
 
-  ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_);
-  std::string lidar_data_topic_2d_res = responded_topics.getOutputTopic("lidar_data_2d");
-  TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << lidar_data_topic_2d_res << "'");
+  // ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_);
+  // std::string lidar_data_topic_2d_res = responded_topics.getOutputTopic("lidar_data_2d");
+  // TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << lidar_data_topic_2d_res << "'");
 
   /*
    * Load a 3D lidar for teleoperation feedback
    */
-  ComponentTopicsReq requested_topics_3dl;
-  temoto_component_manager::LoadComponent load_component_srv_msg_3dl;
-  std::string sensor_name_3dl = "3d_lidar";
-  std::string lidar_data_topic_3dl = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/lidar_data_3d";
+  // ComponentTopicsReq requested_topics_3dl;
+  // temoto_component_manager::LoadComponent load_component_srv_msg_3dl;
+  // std::string sensor_name_3dl = "3d_lidar";
+  // std::string lidar_data_topic_3dl = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/lidar_data_3d";
 
-  TEMOTO_INFO_STREAM("Starting the " << sensor_name_3dl << " component ...");
-  requested_topics_3dl.addOutputTopic("lidar_data_3d", lidar_data_topic_3dl);
-  load_component_srv_msg_3dl.request.component_type = sensor_name_3dl;
-  load_component_srv_msg_3dl.request.output_topics = requested_topics_3dl.outputTopicsAsKeyValues();
+  // TEMOTO_INFO_STREAM("Starting the " << sensor_name_3dl << " component ...");
+  // requested_topics_3dl.addOutputTopic("lidar_data_3d", lidar_data_topic_3dl);
+  // load_component_srv_msg_3dl.request.component_type = sensor_name_3dl;
+  // load_component_srv_msg_3dl.request.output_topics = requested_topics_3dl.outputTopicsAsKeyValues();
 
-  ComponentTopicsRes responded_topics_3dl = cmi_.startComponent(load_component_srv_msg_3dl, robot_name_);
-  std::string lidar_data_topic_3dl_res = responded_topics_3dl.getOutputTopic("lidar_data_3d");
-  TEMOTO_INFO_STREAM("Got " << sensor_name_3dl <<  " data on topic '" << lidar_data_topic_3dl_res << "'");
+  // ComponentTopicsRes responded_topics_3dl = cmi_.startComponent(load_component_srv_msg_3dl, robot_name_);
+  // std::string lidar_data_topic_3dl_res = responded_topics_3dl.getOutputTopic("lidar_data_3d");
+  // TEMOTO_INFO_STREAM("Got " << sensor_name_3dl <<  " data on topic '" << lidar_data_topic_3dl_res << "'");
+
+   /*
+   * Load a 3D camera for teleoperation feedback
+   */
+  ComponentTopicsReq requested_topics_3dcam;
+  temoto_component_manager::LoadComponent load_component_msg_3dcam;
+  std::string sensor_name_3dcam = "3d_camera";
+  std::string sensor_data_topic_3dcam = "/" + temoto_core::common::getTemotoNamespace() + "/teleoperation_feedback/camera_data_3d";
+
+  TEMOTO_INFO_STREAM("Starting the " << sensor_name_3dcam << " component ...");
+  requested_topics_3dcam.addOutputTopic("camera_data_3d", sensor_data_topic_3dcam);
+  load_component_msg_3dcam.request.component_type = sensor_name_3dcam;
+  load_component_msg_3dcam.request.output_topics = requested_topics_3dcam.outputTopicsAsKeyValues();
+
+  ComponentTopicsRes responded_topics_3dcam = cmi_.startComponent(load_component_msg_3dcam, robot_name_);
+  std::string sensor_data_topic_3dcam_res = responded_topics_3dcam.getOutputTopic("camera_data_3d");
+  TEMOTO_INFO_STREAM("Got " << sensor_name_3dcam <<  " data on topic '" << sensor_data_topic_3dcam_res << "'");
 
   /*
    * Show the sensor data and the robot in RViz
    */ 
-  std::string robot_viz_conf_test = "{Robot Description: " + robot_description_name + "}";
-  omi_.showInRviz("robot_model", "", robot_viz_conf_test);
-  omi_.showInRviz("laser scan", lidar_data_topic_2d_);
-  omi_.showInRviz("depth image", lidar_data_topic_3dl_res);
+  // std::string robot_viz_conf_test = "{Robot Description: " + robot_description_name + "}";
+  // omi_.showInRviz("robot_model", "", robot_viz_conf_test);
+  // omi_.showInRviz("laser scan", lidar_data_topic_2d_);
+  // omi_.showInRviz("depth image", lidar_data_topic_3dl_res);
   
   // Start a static tf publisher which links the "world" frame with "base_link" frame
   ermi_.loadResource("tf", "static_transform_publisher", "0 0 0 0 0 0 /world /base_link 50");
@@ -129,30 +146,30 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
 {
   TEMOTO_WARN_STREAM("Received a status message:\n" << comp_srv_msg.request);
 
-  if (comp_srv_msg.request.component_type == "2d_lidar")
-  {
-    // If the 2D LIDAR broke down, load the 3D LIDAR
-    omi_.hideInRviz("laser scan", lidar_data_topic_2d_);
-    ComponentTopicsRes responded_topics = cmi_.startComponent("3d_lidar");
-    lidar_data_topic_3d_ = responded_topics.getOutputTopic("lidar_data_3d");
-    omi_.showInRviz("depth image", lidar_data_topic_3d_);
-  }
-  else if (comp_srv_msg.request.component_type == "3d_lidar")
-  {
-    // If the 3D LIDAR broke down, load the 3D camera
-    omi_.hideInRviz("depth image", lidar_data_topic_3d_);
-    ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
-    lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
-    omi_.showInRviz("laser scan", lidar_data_topic_2d_);
-  }
-  else if (comp_srv_msg.request.component_type == "3d_camera")
-  {
-    // If the 3D camera broke down, load the 2D LIDAR
-    omi_.hideInRviz("depth image", camera_topic_2d_);
-    ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
-    lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
-    omi_.showInRviz("laser scan", lidar_data_topic_2d_);
-  }
+  // if (comp_srv_msg.request.component_type == "2d_lidar")
+  // {
+  //   // If the 2D LIDAR broke down, load the 3D LIDAR
+  //   omi_.hideInRviz("laser scan", lidar_data_topic_2d_);
+  //   ComponentTopicsRes responded_topics = cmi_.startComponent("3d_lidar");
+  //   lidar_data_topic_3d_ = responded_topics.getOutputTopic("lidar_data_3d");
+  //   omi_.showInRviz("depth image", lidar_data_topic_3d_);
+  // }
+  // else if (comp_srv_msg.request.component_type == "3d_lidar")
+  // {
+  //   // If the 3D LIDAR broke down, load the 3D camera
+  //   omi_.hideInRviz("depth image", lidar_data_topic_3d_);
+  //   ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
+  //   lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
+  //   omi_.showInRviz("laser scan", lidar_data_topic_2d_);
+  // }
+  // else if (comp_srv_msg.request.component_type == "3d_camera")
+  // {
+  //   // If the 3D camera broke down, load the 2D LIDAR
+  //   omi_.hideInRviz("depth image", camera_topic_2d_);
+  //   ComponentTopicsRes responded_topics = cmi_.startComponent("2d_lidar");
+  //   lidar_data_topic_2d_ = responded_topics.getOutputTopic("lidar_data_2d");
+  //   omi_.showInRviz("laser scan", lidar_data_topic_2d_);
+  // }
 }
 
 
