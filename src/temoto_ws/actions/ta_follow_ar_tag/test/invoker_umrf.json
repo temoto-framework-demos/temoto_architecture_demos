@@ -1,7 +1,13 @@
 {
-    "name": "TaFollowArTag",
-    "package_name": "ta_follow_ar_tag",
-    "id": 0,
-    "notation": "",
-    "effect": "asynchronous"
+    "graph_name": "ta_follow_ar_tag_graph",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaFollowArTag",
+            "package_name": "ta_follow_ar_tag",
+            "id": 0,
+            "notation": "",
+            "effect": "asynchronous"
+        }
+    ]
 }
