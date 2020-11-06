@@ -63,7 +63,7 @@ void executeTemotoAction()
    * Start the AR tag detection pipe
    */
   TEMOTO_INFO_STREAM("Starting the ar_tag_tracking pipe ...");
-  temoto_core::TopicContainer pipe_topics = cmi_.startPipe("ar_tag_tracking");
+  temoto_core::TopicContainer pipe_topics = cmi_.startPipe("ar_tag_tracking", std::vector<temoto_component_manager::PipeSegmentSpecifier>(), true);
   std::string ar_tag_data_topic = pipe_topics.getOutputTopic("ar_tag_data");
   TEMOTO_INFO_STREAM("Got AR tag data on topic '" << ar_tag_data_topic << "'");
 
