@@ -26,7 +26,7 @@
 #include "temoto_output_manager/output_manager_interface.h"
 #include "temoto_robot_manager/robot_manager_interface.h"
 #include "temoto_action_engine/umrf_json_converter.h"
-#include "temoto_action_engine/UmrfJsonGraph.h"
+#include "temoto_action_engine/UmrfGraph.h"
 
 /* 
  * ACTION IMPLEMENTATION of TaRemoteSensorControl 
@@ -150,19 +150,20 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
   // ap.setParameter("ar_tag_id", "number", boost::any_cast<double>(0.0));
   // umrf.setInputParameters(ap);
 
-  temoto_action_engine::UmrfJsonGraph umrf_graph_msg;
+  temoto_action_engine::UmrfGraph umrf_graph_msg;
   umrf_graph_msg.graph_name = "escort_jackal";
-  umrf_graph_msg.umrf_json_strings.push_back(umrf_json_converter::toUmrfJsonStr(umrf));
+  UmrfGraph ug(umrf_graph_msg.graph_name, std::vector<Umrf>{umrf}, false);
+  umrf_graph_msg.umrf_graph_json = umrf_json_converter::toUmrfGraphJsonStr(ug);
   umrf_graph_msg.name_match_required = true;
   umrf_graph_msg.targets.push_back(robot_name_2_);
 
   publishUmrfGraph(umrf_graph_msg);
 }
 
-void publishUmrfGraph(const temoto_action_engine::UmrfJsonGraph& umrf_graph_msg)
+void publishUmrfGraph(const temoto_action_engine::UmrfGraph& umrf_graph_msg)
 {
   ros::NodeHandle nh;
-  ros::Publisher umrf_graph_pub = nh.advertise<temoto_action_engine::UmrfJsonGraph>("/umrf_graph_topic", 1);
+  ros::Publisher umrf_graph_pub = nh.advertise<temoto_action_engine::UmrfGraph>("/umrf_graph_topic", 1);
 
   /*
    * Wait until there is somebody to publish the message to

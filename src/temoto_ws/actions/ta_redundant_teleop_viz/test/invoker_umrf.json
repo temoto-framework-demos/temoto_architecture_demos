@@ -1,8 +1,14 @@
 {
-    "name": "TaRedundantTeleopViz",
-    "package_name": "ta_redundant_teleop_viz",
-    "id": 0,
-    "suffix": "0",
-    "notation": "",
-    "effect": "asynchronous"
+    "graph_name": "ta_redundant_teleop_viz_graph",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaRedundantTeleopViz",
+            "package_name": "ta_redundant_teleop_viz",
+            "id": 0,
+            "suffix": "0",
+            "notation": "",
+            "effect": "asynchronous"
+        }
+    ]
 }

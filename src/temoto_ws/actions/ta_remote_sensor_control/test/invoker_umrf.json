@@ -1,21 +1,27 @@
 {
-    "name": "TaRemoteSensorControl",
-    "package_name": "ta_remote_sensor_control",
-    "id": 0,
-    "notation": "",
-    "effect": "asynchronous",
-    "input_parameters": {
-        "robot_name_1": {
-            "pvf_type": "string",
-            "pvf_value": "jackal"
-        },
-        "robot_name_2": {
-            "pvf_type": "string",
-            "pvf_value": "clearbot"
-        },
-        "sensor_name": {
-            "pvf_type": "string",
-            "pvf_value": "2d_camera"
-        }
-    }
+    "graph_name": "ta_remote_sensor_control_graph",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaRemoteSensorControl",
+            "package_name": "ta_remote_sensor_control",
+            "id": 0,
+            "notation": "",
+            "effect": "asynchronous",
+            "input_parameters": {
+                "robot_name_1": {
+                    "pvf_type": "string",
+                    "pvf_value": "jackal"
+                },
+                "robot_name_2": {
+                    "pvf_type": "string",
+                    "pvf_value": "clearbot"
+                },
+                "sensor_name": {
+                    "pvf_type": "string",
+                    "pvf_value": "2d_camera"
+                }
+            }
+        }   
+    ]
 }
