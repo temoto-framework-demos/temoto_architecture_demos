@@ -112,4 +112,7 @@
       <arg name="allow_no_texture_points"  value="$(arg allow_no_texture_points)"/>
     </include>
   </group>
+
+  <!-- Attatch the 3D camera to the parent frame. Comment this part out if not needed -->
+  <node name="static_3d_camera_frame_publisher" pkg="tf" type="static_transform_publisher" args="0.2 0 0.3 0 0 0 /base_link /camera_link 50"/>
 </launch>

@@ -15,4 +15,5 @@ Robots:
       package_name: "temoto_ws" 
       executable: "jackal_driver.launch"
       odom_topic: "jackal_velocity_controller/odom"
-      cmd_vel_topic: "jackal_velocity_controller/cmd_vel"      
+      cmd_vel_topic: "jackal_velocity_controller/cmd_vel"
+      cmd_vel_mux: "cmd_vel_stabilizer"      

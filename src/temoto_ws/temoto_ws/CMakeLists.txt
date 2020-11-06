@@ -9,6 +9,7 @@ find_package(catkin REQUIRED COMPONENTS
   rospy
   temoto
   temoto_action_assistant
+  geometry_msgs
 )
 
 catkin_package()
@@ -16,4 +17,17 @@ catkin_package()
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+)
+
+add_executable(cmd_vel_stabilizer
+  src/cmd_vel_stabilizer.cpp
+)
+
+add_dependencies(cmd_vel_stabilizer
+  ${catkin_EXPORTED_TARGETS}
+  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+)
+
+target_link_libraries(cmd_vel_stabilizer
+  ${catkin_LIBRARIES}
 )

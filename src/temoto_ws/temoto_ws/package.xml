@@ -36,6 +36,8 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
+  <depend>geometry_msgs</depend>
+
   <build_depend>roscpp</build_depend>>
   <build_depend>rospy</build_depend>
   <build_depend>temoto</build_depend>

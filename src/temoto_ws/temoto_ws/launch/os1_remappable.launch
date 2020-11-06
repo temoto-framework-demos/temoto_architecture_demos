@@ -34,5 +34,5 @@
   </node>
 
   <!-- Attatch the lidar to robot base_link frame. Comment this part out if not needed -->
-  <node name="static_3d_lidar_frame_publisher" pkg="tf" type="static_transform_publisher" args="0.1 0 0.29 1.57 0 0 /base_link $(arg lidar_frame_name)/os1_lidar 50"/>
+  <node name="static_3d_lidar_frame_publisher" pkg="tf" type="static_transform_publisher" args="0.2 0 0.37 -1.57 0 0 /base_link $(arg lidar_frame_name)/os1_sensor 50"/>
 </launch>
