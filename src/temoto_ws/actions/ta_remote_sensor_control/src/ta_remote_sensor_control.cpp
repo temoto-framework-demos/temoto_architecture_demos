@@ -47,7 +47,6 @@ void executeTemotoAction()
   // Input parameters
   sensor_name_ = GET_PARAMETER("sensor_name", std::string);
   robot_name_1_ = GET_PARAMETER("robot_name_1", std::string);
-  robot_name_2_ = GET_PARAMETER("robot_name_2", std::string);
 
    // Initialize the manager interfaces
   cmi_.initialize(this);
@@ -65,17 +64,6 @@ void executeTemotoAction()
   TEMOTO_INFO_STREAM("trying to get config of '" << robot_name_1_ << "' ...");
   YAML::Node robot_1_config = rmi_.getRobotConfig(robot_name_1_);
   TEMOTO_INFO_STREAM("Config of robot '" << robot_name_1_ << "': " << robot_1_config);
-
-  /*
-   * Load the robot 2 and get its configuration
-   */ 
-  TEMOTO_INFO_STREAM("loading " << robot_name_2_);
-  rmi_.loadRobot(robot_name_2_);
-  TEMOTO_INFO_STREAM(robot_name_2_ << " initialized");
-
-  TEMOTO_INFO_STREAM("trying to get config of '" << robot_name_2_ << "' ...");
-  YAML::Node robot_2_config = rmi_.getRobotConfig(robot_name_2_);
-  TEMOTO_INFO_STREAM("Config of robot '" << robot_name_2_ << "': " << robot_2_config);
 
   std::string robot_1_cmd_vel_topic = robot_1_config["robot_absolute_namespace"].as<std::string>() + "/"
     + robot_1_config["navigation"]["driver"]["cmd_vel_topic"].as<std::string>();
@@ -124,8 +112,34 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
 
   /*
    * Try to load the same component on a different robot
+   * First, ask the component manager whether it's aware of any other remotely managed cameras
    */ 
-  TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component on " << robot_name_2_ << " ...");
+  auto component_infos = cmi_.listComponents(sensor_name_);
+  std::string remote_robot_ns;
+
+  for (const auto& component_info_remote : component_infos.remote_components)
+  {
+    // Skip the component info of a non working robot. Ideally this should be done by just 
+    // ordering all remote components based on their reliability scores and picking the first one
+    if (component_info_remote.temoto_namespace == robot_name_1_)
+    {
+      continue;
+    }
+    else
+    {
+      remote_robot_ns = component_info_remote.temoto_namespace;
+      break;
+    }
+  }
+
+  if (remote_robot_ns.empty())
+  {
+    TEMOTO_ERROR_STREAM("Could not find any remote components of type '" << sensor_name_ << "'");
+    return;
+  }
+
+  // Start the camera on the remote temoto instance
+  TEMOTO_INFO_STREAM("Starting the " << sensor_name_ << " component on " << remote_robot_ns << " ...");
 
   ComponentTopicsReq requested_topics;
   temoto_component_manager::LoadComponent load_component_srv_msg;
@@ -134,7 +148,7 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
   load_component_srv_msg.request.component_type = sensor_name_;
   load_component_srv_msg.request.output_topics = requested_topics.outputTopicsAsKeyValues();
   
-  ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, robot_name_2_);
+  ComponentTopicsRes responded_topics = cmi_.startComponent(load_component_srv_msg, remote_robot_ns);
   std::string sensor_topic_res = responded_topics.getOutputTopic("camera_data_compressed");
   TEMOTO_INFO_STREAM("Got " << sensor_name_ <<  " data on topic '" << sensor_topic_res << "'");
 
@@ -146,16 +160,12 @@ void componentStatusCb(const temoto_component_manager::LoadComponent& comp_srv_m
   umrf.setSuffix(0);
   umrf.setEffect("asynchronous");
 
-  // ActionParameters ap;
-  // ap.setParameter("ar_tag_id", "number", boost::any_cast<double>(0.0));
-  // umrf.setInputParameters(ap);
-
   temoto_action_engine::UmrfGraph umrf_graph_msg;
   umrf_graph_msg.graph_name = "escort_jackal";
   UmrfGraph ug(umrf_graph_msg.graph_name, std::vector<Umrf>{umrf}, false);
   umrf_graph_msg.umrf_graph_json = umrf_json_converter::toUmrfGraphJsonStr(ug);
   umrf_graph_msg.name_match_required = true;
-  umrf_graph_msg.targets.push_back(robot_name_2_);
+  umrf_graph_msg.targets.push_back(remote_robot_ns);
 
   publishUmrfGraph(umrf_graph_msg);
 }
@@ -203,7 +213,6 @@ std::string sensor_topic_;
 std::string sensor_info_topic_;
 std::string sensor_name_;
 std::string robot_name_1_;
-std::string robot_name_2_;
 
 }; // TaRemoteSensorControl class
 
