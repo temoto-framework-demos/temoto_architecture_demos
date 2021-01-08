@@ -1,0 +1,31 @@
+{
+    "name": "TaXarm7Test",
+    "package_name": "ta_xarm7_test",
+    "effect": "asynchronous",
+    "input_parameters": {
+        "pose": {
+            "orientation": {
+                "pitch": {
+                    "pvf_type": "number"
+                },
+                "roll": {
+                    "pvf_type": "number"
+                },
+                "yaw": {
+                    "pvf_type": "number"
+                }
+            },
+            "position": {
+                "x": {
+                    "pvf_type": "number"
+                },
+                "y": {
+                    "pvf_type": "number"
+                },
+                "z": {
+                    "pvf_type": "number"
+                }
+            }
+        }
+    }
+}

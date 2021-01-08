@@ -1,0 +1,26 @@
+Robots:
+- robot_name: "xarm7_robot"
+  description: "xarm7_robot"
+  reliability: 0.8
+  urdf:
+    package_name: "xarm7_mov_test"
+    executable: "urdf/xarm7_with_gripper.xacro"
+  manipulation:
+    controller:
+      package_name: "temoto_ws" 
+      executable: "xarm7_controller.launch"
+      args: "fake_execution:=false show_rviz:=true debug:=false"
+      planning_groups: ["xarm7"]
+    driver:
+      package_name: "temoto_ws"
+      executable: "xarm7_driver.launch"
+      args: "robot_ip:=192.168.1.195"
+  gripper:
+    controller:
+      package_name: "temoto_gripper_converter"
+      executable: "xarm_gripper_temoto_controller.launch"      
+    driver:      
+      package_name: "temoto_gripper_converter" 
+      executable: "xarm_gripper_temoto_driver.launch"
+      
+

@@ -1,0 +1,21 @@
+<launch>
+  <arg name="debug" default="false" />
+  <arg name="NO_GUI_CTRL" default="false"/>
+  <arg name="db_path" default="$(find xarm7_wgrip_moveit)/default_warehouse_mongo_db" />
+  <arg name="show_rviz" default="true" />
+  <arg name="db" default="false" />
+
+  <!-- Run Rviz and load the default config to see the state of the move_group node -->
+  <include if="$(arg show_rviz)" file="$(find xarm7_wgrip_moveit)/launch/moveit_rviz.launch">
+    <arg name="no_gui_ctrl" value="$(arg NO_GUI_CTRL)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+
+  <!-- If database loading was enabled, start mongodb as well -->
+  <include file="$(find xarm7_wgrip_moveit)/launch/default_warehouse_db.launch" if="$(arg db)">
+    <arg name="moveit_warehouse_database_path" value="$(arg db_path)"/>
+  </include>  
+
+</launch>
+
+

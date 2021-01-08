@@ -1,0 +1,3 @@
+<launch>
+  <node name="xArm_gripper_controller" pkg="temoto_gripper_converter" type="xArm_gripper_controller" output="screen" /> 
+</launch>

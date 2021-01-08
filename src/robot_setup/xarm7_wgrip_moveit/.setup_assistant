@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: xarm7_mov_test
+    relative_path: urdf/xarm7_with_gripper.xacro
+    xacro_args: "--inorder "
+  SRDF:
+    relative_path: config/xarm7_robot_with_base.srdf
+  CONFIG:
+    author_name: Fabian Parra
+    author_email: parbian_11@hotmail.com
+    generated_timestamp: 1570635483

@@ -1,0 +1,41 @@
+<launch>
+  
+  <rosparam command="load" file="$(find xarm7_wgrip_moveit)/config/joint_names.yaml"/>
+
+  <!-- the "sim" argument controls whether we connect to a Simulated or Real robot -->
+  <!--  - if sim=false, a robot_ip argument is required -->
+  <arg name="sim" default="false" />
+  <arg name="robot_ip" unless="$(arg sim)" />
+
+  <!-- load the robot_description parameter before launching ROS-I nodes -->
+  <include file="$(find xarm7_wgrip_moveit)/launch/planning_context.launch" >
+   <arg name="load_robot_description" value="true" />
+  </include>
+
+  <!-- run the robot simulator and action interface nodes -->
+  <group if="$(arg sim)">
+    <!--include file="$(find industrial_robot_simulator)/launch/robot_interface_simulator.launch" /-->
+
+    <!-- publish the robot state (tf transforms) -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+  </group>
+
+  <!-- run the "real robot" interface nodes -->
+  <!--   - this typically includes: robot_state, motion_interface, and joint_trajectory_action nodes -->
+  <!--   - replace these calls with appropriate robot-specific calls or launch files -->
+  <group unless="$(arg sim)">
+    <remap from="follow_joint_trajectory" to="joint_trajectory_action"/>
+    <include file="$(find xarm7_wgrip_moveit)/launch/rviz_common.launch" >
+      
+    </include>
+  </group>
+
+  <include file="$(find xarm7_wgrip_moveit)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+  </include>
+
+  <include file="$(find xarm7_wgrip_moveit)/launch/moveit_rviz.launch">
+    <arg name="config" value="true"/>
+  </include>
+
+</launch>
