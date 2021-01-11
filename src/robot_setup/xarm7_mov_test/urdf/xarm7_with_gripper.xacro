@@ -6,57 +6,36 @@
   <xacro:arg name="effort_control" default="false"/>
   <xacro:include filename="$(find xarm_description)/urdf/xarm7_robot_macro.xacro" />
   <xacro:xarm7_robot prefix="$(arg prefix)" namespace="$(arg ros_namespace)" limited="$(arg limited)" effort_control="$(arg effort_control)"
-  attach_to="base_link" xyz="0.7 0.5 0.15" rpy="0 0 -0.52"/>
-
+  attach_to="base_link" xyz="0 0 0.4" rpy="0 0 -0.52"/>
 
 <xacro:include filename="$(find xarm_gripper)/urdf/xarm_gripper_model.xacro" />
 <xacro:load_gripper prefix="$(arg prefix)" effort_control="$(arg effort_control)"
   attach_to="$(arg prefix)link7" xyz="0 0 0" rpy="0 0 0"/>
 
 
+<material name="blue">
+  <color rgba="0 0 0.8 0.6"/>
+</material>
 
-  <material name="blue">
-    <color rgba="0 0 0.8 1"/>
-  </material>
 <link name="base_link">
+
+  <!-- base cart -->
   <visual>
     <origin rpy="0 0 0" xyz="0 0 0"/>
     <geometry>
-      <box size="2 1.5 0.3"/>
+      <box size="0.6 0.5 0.8"/>
     </geometry>
     <material name="blue"/>
   </visual>
 
+  <!-- back wall -->
   <visual>
-    <origin rpy="0 0 0" xyz="0 0.75 0.3"/>   
+    <origin rpy="0 0 0" xyz="-0.3 0 0.7"/>   
     <geometry>
-      <box size="2 0.05 0.3"/>
+      <box size="0.02 0.5 0.6"/>
     </geometry>
     <material name="blue"/>
   </visual>
- <visual>
-    <origin rpy="0 0 0" xyz="0 -0.75 0.3"/>   
-    <geometry>
-      <box size="2 0.05 0.3"/>
-    </geometry>
-    <material name="blue"/>
-  </visual>
-
-   <visual>
-    <origin rpy="0 0 0" xyz="1 0 0.3"/>   
-    <geometry>
-      <box size="0.05 1.5 0.3"/>
-    </geometry>
-    <material name="blue"/>
-  </visual>
-  <visual>
-    <origin rpy="0 0 0" xyz="-1 0 0.3"/>   
-    <geometry>
-      <box size="0.05 1.5 0.3"/>
-    </geometry>
-    <material name="blue"/>
-  </visual>
-
 </link>
 
 <link name="tool_0">

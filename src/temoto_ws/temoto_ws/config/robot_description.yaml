@@ -9,7 +9,7 @@ Robots:
     controller:
       package_name: "temoto_ws" 
       executable: "xarm7_controller.launch"
-      args: "fake_execution:=false show_rviz:=true debug:=false"
+      args: "show_rviz:=true debug:=false"
       planning_groups: ["xarm7"]
     driver:
       package_name: "temoto_ws"
