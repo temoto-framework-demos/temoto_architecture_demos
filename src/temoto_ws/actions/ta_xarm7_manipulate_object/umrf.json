@@ -1,0 +1,5 @@
+{
+    "name": "TaXarm7ManipulateObject",
+    "package_name": "ta_xarm7_manipulate_object",
+    "effect": "synchronous"
+}

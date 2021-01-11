@@ -1,0 +1,18 @@
+{
+    "graph_name": "ta_initialize_robot",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaInitializeRobot",
+            "package_name": "ta_initialize_robot",
+            "id": 0,
+            "effect": "asynchronous",
+            "input_parameters": {
+                "robot_name": {
+                    "pvf_type": "string",
+                    "pvf_value": "jackal"
+                }
+            }
+        }
+    ]
+}

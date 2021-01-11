@@ -1,0 +1,28 @@
+{
+    "name": "TaNavigationGoal",
+    "package_name": "ta_navigation_goal",
+    "effect": "synchronous",
+    "input_parameters": {
+        "robot_name": {
+            "pvf_type": "string"
+        },
+        "nav_goal": {
+            "frame_id": {
+                "pvf_type": "string"
+            },
+            "orientation": {
+                "yaw": {
+                    "pvf_type": "number"
+                }
+            },
+            "position": {
+                "x": {
+                    "pvf_type": "number"
+                },
+                "y": {
+                    "pvf_type": "number"
+                }
+            }
+        }
+    }
+}
