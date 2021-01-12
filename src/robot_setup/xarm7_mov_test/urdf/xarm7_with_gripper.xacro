@@ -29,6 +29,14 @@
   </visual>
 
   <!-- back wall -->
+  <!-- <visual>
+    <origin rpy="0 0 0" xyz="0 -0.25 0.85"/>   
+    <geometry>
+      <box size="0.6 0.02 0.9"/>
+    </geometry>
+    <material name="blue"/>
+  </visual> -->
+
   <visual>
     <origin rpy="0 0 0" xyz="-0.3 0 0.7"/>   
     <geometry>
