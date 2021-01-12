@@ -8,7 +8,7 @@ Robots:
   navigation:
     controller:
       package_name: "temoto_ws"
-      executable: "jackal_controller_v2.launch"
+      executable: "jackal_controller.launch"
       global_planner: "navfn/NavfnROS"       
       local_planner: "dwa_local_planner/DWAPlannerROS"
     driver:

@@ -4,3 +4,9 @@
 [submodule "src/temoto_output_manager"]
 	path = src/temoto_output_manager
 	url = https://github.com/temoto-telerobotics/temoto_output_manager
+[submodule "src/robot_setup/urg_node"]
+	path = src/robot_setup/urg_node
+	url = https://github.com/ros-drivers/urg_node
+[submodule "src/robot_setup/temoto_robot_manager"]
+	path = src/robot_setup/temoto_robot_manager
+	url = https://github.com/temoto-telerobotics/temoto_robot_manager
