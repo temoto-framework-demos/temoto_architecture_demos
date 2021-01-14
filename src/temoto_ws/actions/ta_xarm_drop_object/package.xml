@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>ta_navigation_goal</name>
+  <name>ta_xarm_drop_object</name>
   <version>0.0.0</version>
-  <description>The ta_navigation_goal package</description>
+  <description>The ta_xarm_drop_object package</description>
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
   <!-- Authors do not have to be maintainers, but could be -->
@@ -39,7 +39,6 @@
   <depend>roscpp</depend>>
   <depend>rospy</depend>
   <depend>class_loader</depend>
-  <depend>tf</depend>
   <depend>temoto_action_engine</depend>
   <depend>temoto_core</depend>
   <depend>temoto_robot_manager</depend>

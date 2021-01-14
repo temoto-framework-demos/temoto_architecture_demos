@@ -1,0 +1,18 @@
+{
+    "graph_name": "ta_delay",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaDelay",
+            "package_name": "ta_delay",
+            "id": 0,
+            "effect": "synchronous",
+            "input_parameters": {
+                "duration": {
+                    "pvf_type": "number",
+                    "pvf_value": 5.0
+                }
+            }
+        }
+    ]
+}

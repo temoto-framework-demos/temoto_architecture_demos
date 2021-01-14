@@ -1,6 +1,6 @@
 
-#ifndef ta_xarm7_manipulate_object_TEMOTO_ACTION_H
-#define ta_xarm7_manipulate_object_TEMOTO_ACTION_H
+#ifndef ta_xarm_drop_object_TEMOTO_ACTION_H
+#define ta_xarm_drop_object_TEMOTO_ACTION_H
 
 /* REQUIRED BY TEMOTO */
 #include "temoto_core/common/base_subsystem.h"
@@ -26,7 +26,7 @@ public:
    */
   const std::string& getName()
   {
-    return getUmrfPtr()->getName();
+    return getUmrfPtr()->getFullName();
   }
 
   /**
@@ -41,7 +41,7 @@ public:
        * Assign the class name. This cannot be done in constructor because class loader works
        * only with default constructors.
        */ 
-      class_name_ = getUmrfPtr()->getName();
+      class_name_ = getUmrfPtr()->getFullName();
       executeTemotoAction();
     }
     catch(temoto_core::error::ErrorStack e)

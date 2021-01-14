@@ -1,0 +1,10 @@
+{
+    "name": "TaDelay",
+    "package_name": "ta_delay",
+    "effect": "synchronous",
+    "input_parameters": {
+        "duration": {
+            "pvf_type": "number"
+        }
+    }
+}

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ta_navigation_goal)
+project(ta_echo_manipulator_pose)
 
 # use c++11 standard
 add_compile_options(-std=c++11)
@@ -15,7 +15,6 @@ find_package(catkin REQUIRED COMPONENTS
   class_loader
   roscpp
   rospy
-  tf
   temoto_action_engine
   temoto_core
   temoto_robot_manager

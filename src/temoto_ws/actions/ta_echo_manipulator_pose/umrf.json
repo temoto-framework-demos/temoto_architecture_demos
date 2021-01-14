@@ -1,0 +1,10 @@
+{
+    "name": "TaEchoManipulatorPose",
+    "package_name": "ta_echo_manipulator_pose",
+    "effect": "synchronous",
+    "input_parameters": {
+        "robot_name": {
+            "pvf_type": "string"
+        }
+    }
+}

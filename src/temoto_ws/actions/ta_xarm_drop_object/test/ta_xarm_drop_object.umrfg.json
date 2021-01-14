@@ -1,0 +1,52 @@
+{
+    "graph_name": "ta_xarm_drop_object",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaXarmDropObject",
+            "package_name": "ta_xarm_drop_object",
+            "id": 0,
+            "effect": "synchronous",
+            "input_parameters": {
+                "gripping_width": {
+                    "pvf_type": "number",
+                    "pvf_value": 46
+                },
+                "pose": {
+                    "orientation": {
+                        "w": {
+                            "pvf_type": "number",
+                            "pvf_value": 0.00476254
+                        },
+                        "x": {
+                            "pvf_type": "number",
+                            "pvf_value": 0.999633
+                        },
+                        "y": {
+                            "pvf_type": "number",
+                            "pvf_value": -0.0263188
+                        },
+                        "z": {
+                            "pvf_type": "number",
+                            "pvf_value": 0.00431554
+                        }
+                    },
+                    "position": {
+                        "x": {
+                            "pvf_type": "number",
+                            "pvf_value": 0.247579
+                        },
+                        "y": {
+                            "pvf_type": "number",
+                            "pvf_value": -0.0818741
+                        },
+                        "z": {
+                            "pvf_type": "number",
+                            "pvf_value": 0.475342
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}

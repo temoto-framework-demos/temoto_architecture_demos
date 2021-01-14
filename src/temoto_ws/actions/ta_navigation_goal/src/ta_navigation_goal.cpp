@@ -22,6 +22,7 @@
 #include "ta_navigation_goal/temoto_action.h"
 #include "ta_navigation_goal/macros.h"
 #include "temoto_robot_manager/robot_manager_interface.h"
+#include "tf/tf.h"
 
 /* 
  * ACTION IMPLEMENTATION of TaNavigationGoal 
@@ -51,8 +52,7 @@ void executeTemotoAction()
   geometry_msgs::PoseStamped target_pose;
   target_pose.pose.position.x = in_param_nav_goal_position_x;
   target_pose.pose.position.y = in_param_nav_goal_position_y;
-  target_pose.pose.orientation.z = 0;
-  target_pose.pose.orientation.w = 1;
+  target_pose.pose.orientation = tf::createQuaternionMsgFromRollPitchYaw(0, 0, in_param_nav_goal_orientation_yaw);;
 
   TEMOTO_INFO_STREAM("Sending a navigation goal to " << in_param_robot_name << " ...");
   rmi_.navigationGoal(in_param_robot_name, in_param_nav_goal_frame_id, target_pose);

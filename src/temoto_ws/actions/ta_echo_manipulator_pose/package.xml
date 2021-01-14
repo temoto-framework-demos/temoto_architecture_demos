@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>ta_xarm7_manipulate_object</name>
+  <name>ta_echo_manipulator_pose</name>
   <version>0.0.0</version>
-  <description>The ta_xarm7_manipulate_object package</description>
+  <description>The ta_echo_manipulator_pose package</description>
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
   <!-- Authors do not have to be maintainers, but could be -->

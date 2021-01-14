@@ -1,0 +1,37 @@
+{
+    "name": "TaXarmDropObject",
+    "package_name": "ta_xarm_drop_object",
+    "effect": "synchronous",
+    "input_parameters": {
+        "gripping_width": {
+            "pvf_type": "number"
+        },
+        "pose": {
+            "orientation": {
+                "w": {
+                    "pvf_type": "number"
+                },
+                "x": {
+                    "pvf_type": "number"
+                },
+                "y": {
+                    "pvf_type": "number"
+                },
+                "z": {
+                    "pvf_type": "number"
+                }
+            },
+            "position": {
+                "x": {
+                    "pvf_type": "number"
+                },
+                "y": {
+                    "pvf_type": "number"
+                },
+                "z": {
+                    "pvf_type": "number"
+                }
+            }
+        }
+    }
+}

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(ta_xarm7_manipulate_object)
+project(ta_xarm_drop_object)
 
 # use c++11 standard
 add_compile_options(-std=c++11)

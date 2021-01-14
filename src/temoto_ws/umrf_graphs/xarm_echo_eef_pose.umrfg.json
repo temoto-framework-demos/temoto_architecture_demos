@@ -1,0 +1,82 @@
+{
+    "graph_name": "xarm_echo_eef_pose",
+    "graph_description": "",
+    "umrf_actions": [
+        {
+            "name": "TaInitializeRobot",
+            "package_name": "ta_initialize_robot",
+            "description": "echos the pose of the end effector",
+            "id": 0,
+            "effect": "asynchronous",
+            "input_parameters": {
+                "robot_name": {
+                    "pvf_type": "string",
+                    "pvf_value": "xarm7_robot"
+                }
+            },
+            "children": [
+                {
+                    "name": "TaEchoManipulatorPose",
+                    "id": 0
+                }
+            ]
+        },
+        {
+            "name": "TaEchoManipulatorPose",
+            "package_name": "ta_echo_manipulator_pose",
+            "description": "echos the pose of the end effector",
+            "id": 0,
+            "effect": "synchronous",
+            "input_parameters": {
+                "robot_name": {
+                    "pvf_type": "string",
+                    "pvf_value": "xarm7_robot"
+                }
+            },
+            "children": [
+                {
+                    "name": "TaEchoManipulatorPose",
+                    "id": 1
+                }
+            ],
+            "parents": [
+                {
+                    "name": "TaInitializeRobot",
+                    "id": 0,
+                    "required": false
+                },
+                {
+                    "name": "TaEchoManipulatorPose",
+                    "id": 1,
+                    "required": false
+                }
+            ]
+        },
+        {
+            "name": "TaEchoManipulatorPose",
+            "package_name": "ta_echo_manipulator_pose",
+            "description": "echos the pose of the end effector",
+            "id": 1,
+            "effect": "synchronous",
+            "input_parameters": {
+                "robot_name": {
+                    "pvf_type": "string",
+                    "pvf_value": "xarm7_robot"
+                }
+            },
+            "children": [
+                {
+                    "name": "TaEchoManipulatorPose",
+                    "id": 0
+                }
+            ],
+            "parents": [
+                {
+                    "name": "TaEchoManipulatorPose",
+                    "id": 0,
+                    "required": false
+                }
+            ]
+        }
+    ]
+}
