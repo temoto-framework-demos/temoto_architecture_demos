@@ -26,13 +26,13 @@ This repository (and each platform-specific branch) is a ROS1 catkin workspace w
 * **temoto/** - contains TeMoto-related base subsystems
 * **robot_setup/** - *(branch specific content)* contains robot-specific packages
 * **temoto_ws/** - *(branch specific content)* contains robot related TeMoto configuration files
-   * **actions** - contains TeMoto actions. Each action is organized as a ROS1 package
-   * **temoto_ws**
-     * **config** - contains *components.yaml*, *pipes.yaml*, *robot_description.yaml* files 
-     * **launch** - launch files for launching TeMoto
-     * **monitoring** - scripts and setup files for CPU and power monitoring
-     * **tracing** - scripts and setup files for [OpenTracing](https://opentracing.io/) based distributed tracing
-     * **scripts** - convenience scripts
+   * **actions/** - contains TeMoto actions. Each action is organized as a ROS1 package
+   * **temoto_ws/**
+     * **config/** - contains *components.yaml*, *pipes.yaml*, *robot_description.yaml* files 
+     * **launch/** - launch files for launching TeMoto
+     * **monitoring/** - scripts and setup files for CPU and power monitoring
+     * **tracing/** - scripts and setup files for [OpenTracing](https://opentracing.io/) based distributed tracing
+     * **scripts/** - convenience scripts
 
 *scripts*, *monitoring* and *tracing* folders do not contain anything that is required for just running the demos.
 However if monitoring and/or tracing functionalities are desired, then these folders contain the necessary setup files.
@@ -57,7 +57,7 @@ Conceptually each platform contains its own TeMoto configuration and can operate
 This means that TeMoto is deployed on every platform, not on a single central platform. The robots communicate via
 wireless local network.
 
-In all demos, the OCS(operator) was configured as a ROS master. Follow [this tutorial](https://github.com/ut-ims-robotics/tutorials/wiki/Running-ROS-over-multiple-computers) for configuring the ROS master. For convinience I suggest to use SSH to operate with the robots.
+In all demos, the OCS (operator) was configured as the ROS master. Follow [this tutorial](https://github.com/ut-ims-robotics/tutorials/wiki/Running-ROS-over-multiple-computers) for configuring the ROS master. For convenience I suggest using SSH to operate with the robots.
 
 ### Demo 1
 The goal of this demo is to exemplify how the ability to dynamically load resources can be utilized as a backbone structure of a redundant and fault-tolerant robotic system. The underlying scenario depicts a remote inspection mission where a human operator controls a robot based on the visual feedback provided by the robot’s sensors. The essential part of the mission is sustaining the operator’s situational awareness, which is challenged by incidents that compromise the robot’s sensors. As a countermeasure for continuing the mission, each resource failure is addressed by utilizing an alternative sensor onboard the robot.
@@ -72,9 +72,8 @@ $ roslaunch temoto_ws temoto.launch temoto_namespace:=ocs
 $ roslaunch temoto_ws temoto.launch temoto_namespace:=jackal
 ```
 
-Invoke the action on the OCS, which initializes Jackal's hardware communication, required sensors, displays the data on OCS's screen via RViz,
+On OCS: Invoke the action on the OCS, which initializes Jackal's hardware communication, required sensors, displays the data on OCS's screen via RViz,
 and embeds the fault tolerance mechanism that initializes an alternative sensor in case of a sensor failure.
-On OCS:
 ``` bash
 $ roslaunch ta_redundant_teleop_viz action_test_separate.launch wake_word:=ocs
 ```
@@ -101,9 +100,8 @@ $ roslaunch temoto_ws temoto.launch temoto_namespace:=jackal
 $ roslaunch temoto_ws temoto.launch temoto_namespace:=robotont
 ```
 
-Invoke the action on the OCS, Jackal's hardware communication, required sensors, displays the data on OCS's screen via RViz, 
+On OCS: Invoke the action on the OCS, which initializes Jackal's hardware communication, required sensors, displays the data on OCS's screen via RViz, 
 and embeds the fault tolerance mechanism that makes Robotont share its camera stream and track Jackal.
-On OCS:
 ``` bash
 $ roslaunch ta_remote_sensor_control action_test_separate.launch wake_word:=ocs
 ```
