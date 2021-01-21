@@ -1,4 +1,4 @@
-This repository contains supplementary materials for reproducing the demos shown in the "TeMoto: A Software Framework for Dependable Long-Term Robotic Autonomy with Dynamic Resource Management" paper.
+This repository contains supplementary materials for reproducing the demos shown in the *"TeMoto: A Software Framework for Dependable Long-Term Robotic Autonomy with Dynamic Resource Management"* paper.
 
 The platform-specific configuration files and dependencies are under the according branch, which include:
  * [**Clearpath Jackal**](https://github.com/temoto-telerobotics-demos/temoto_architecture_demos/tree/robot-jackal)
@@ -7,9 +7,9 @@ The platform-specific configuration files and dependencies are under the accordi
  * [**Operator Control Station**](https://github.com/temoto-telerobotics-demos/temoto_architecture_demos/tree/operator)
 
 There are three demos in total:
- * **Demo 1** - "Fault Tolerant Sensor Redundancy" - exemplifies how the ability to dynamically load resources can be utilized as a backbone structure of a redundant and fault-tolerant robotic system
- * **Demo 2** - "Redundant Multi-Robot Escort via Resource Synchronization" - exemplifies the use of resource synchronization features of TeMoto.
- * **Demo 3** - "Mission Adaptiveness During Long-Term Deployment" - showcases how a deployed robot can be adapted for a new task by describing the missions via UMRF graph.
+ * **Demo 1** - *"Fault Tolerant Sensor Redundancy"* - exemplifies how the ability to dynamically load resources can be utilized as a backbone structure of a redundant and fault-tolerant robotic system
+ * **Demo 2** - *"Redundant Multi-Robot Escort via Resource Synchronization"* - exemplifies the use of resource synchronization features of TeMoto.
+ * **Demo 3** - *"Mission Adaptiveness During Long-Term Deployment"* - showcases how a deployed robot can be adapted for a new task by describing the missions via UMRF graph.
 
 ## General Requirements
 The demostrations were set up on Ubuntu 18.04 with ROS Melodic installed.
@@ -22,7 +22,7 @@ $ sudo apt install qt5-default
 ## Layout of the Repository
 This repository (and each platform-specific branch) is a ROS1 catkin workspace with the following structure
 
-**"src/"**
+**src/**
 * **temoto/** - contains TeMoto-related base subsystems
 * **robot_setup/** - *(branch specific content)* contains robot-specific packages
 * **temoto_ws/** - *(branch specific content)* contains robot related TeMoto configuration files
