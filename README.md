@@ -1,4 +1,5 @@
-This repository contains supplementary materials for reproducing the demos shown in the *"TeMoto: A Software Framework for Dependable Long-Term Robotic Autonomy with Dynamic Resource Management"* paper.
+This repository contains supplementary materials for reproducing the demos shown in the paper: 
+>R. Valner, V. Vunder, A. Aabloo, M. Pryor and K. Kruusamäe, "***TeMoto: A Software Framework for Adaptive and Dependable Robotic Autonomy With Dynamic Resource Management***," in IEEE Access, vol. 10, pp. 51889-51907, 2022, doi: 10.1109/ACCESS.2022.3173647.
 
 The platform-specific configuration files and dependencies are under the according branch, which include:
  * [**Clearpath Jackal**](https://github.com/temoto-telerobotics-demos/temoto_architecture_demos/tree/robot-jackal)
